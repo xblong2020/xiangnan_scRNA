@@ -1,23 +1,23 @@
 # Repository provenance audit
 
-Generated locally: 2026-09-02T08:49:50+08:00
-Audit phase: post-release
+Generated locally: 2026-09-02T08:55:49+08:00
+Audit phase: final
 
 | Field | Value |
 |---|---|
 | REPOSITORY_EXISTS | TRUE |
 | GIT_ROOT | C:/Users/Administrator/OneDrive/文档/湘南学院单细胞 |
 | CURRENT_BRANCH | codex/module7-sctenifoldknk |
-| HEAD_COMMIT | 302d29c7570b20c549cddc90580fc60a3a2ce4f9 |
+| HEAD_COMMIT | 50acc2a18866e53d4fdd54deea92cd416ca1aaa0 |
 | HEAD_STATE | COMMIT |
 | REMOTE_EXISTS | FALSE |
 | REMOTE_URL | NULL |
 | TAG_EXISTS | TRUE |
 | LATEST_TAG | v1.0.0 |
-| WORKTREE_CLEAN | FALSE |
+| WORKTREE_CLEAN | TRUE |
 | ARCHIVAL_READY | FALSE |
 | RELEASE_TAG | v1.0.0 |
-| RELEASE_COMMIT | 302d29c7570b20c549cddc90580fc60a3a2ce4f9 |
+| RELEASE_COMMIT | 1c0303049ba629b9b986cb9a7e088384f15f5a87 |
 | REMOTE_REPOSITORY_STATUS | NOT_CONFIGURED |
 | REMOTE_PUSH_STATUS | NOT_APPLICABLE_NO_REMOTE |
 

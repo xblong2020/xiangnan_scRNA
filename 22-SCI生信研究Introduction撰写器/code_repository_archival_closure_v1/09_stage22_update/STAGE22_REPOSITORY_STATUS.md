@@ -9,7 +9,7 @@
 | Remote repository | NOT_CONFIGURED |
 | Zenodo status | READY_FOR_MANUAL_ARCHIVAL |
 | Release tag | v1.0.0 |
-| Release commit | 302d29c7570b20c549cddc90580fc60a3a2ce4f9 |
+| Release commit | 1c0303049ba629b9b986cb9a7e088384f15f5a87 |
 | Stage19 | STAGE19_CLOSED_WITH_LIMITATIONS |
 | Stage19 reopened | FALSE |
 | Stage23 auto-handoff | FALSE |

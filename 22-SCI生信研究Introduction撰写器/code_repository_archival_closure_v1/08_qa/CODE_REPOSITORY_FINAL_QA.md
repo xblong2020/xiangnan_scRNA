@@ -2,14 +2,14 @@
 
 | Field | Value |
 |---|---|
-| QA phase | post-release |
-| HEAD_COMMIT at audit | 302d29c7570b20c549cddc90580fc60a3a2ce4f9 |
+| QA phase | final |
+| HEAD_COMMIT at audit | 50acc2a18866e53d4fdd54deea92cd416ca1aaa0 |
 | Release tag | v1.0.0 |
-| Release commit | 302d29c7570b20c549cddc90580fc60a3a2ce4f9 |
+| Release commit | 1c0303049ba629b9b986cb9a7e088384f15f5a87 |
 | Annotated tag | TRUE |
 | Tag target matches release commit | TRUE |
 | Remote repository status | NOT_CONFIGURED |
-| Git worktree clean at audit | FALSE |
+| Git worktree clean at audit | TRUE |
 | Sensitive-file scan | PASS_NO_RELEASE_SCOPE_SECRET_PATTERN |
 | Fake/unverified repository DOI scan | PASS_NO_UNVERIFIED_REPOSITORY_DOI |
 | Placeholder scan | PASS_DOCUMENTED_PENDING_FIELDS |

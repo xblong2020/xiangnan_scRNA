@@ -2,14 +2,14 @@
   "ARCHIVAL_READY": false,
   "CURRENT_BRANCH": "codex/module7-sctenifoldknk",
   "GIT_ROOT": "C:/Users/Administrator/OneDrive/文档/湘南学院单细胞",
-  "HEAD_COMMIT": "302d29c7570b20c549cddc90580fc60a3a2ce4f9",
+  "HEAD_COMMIT": "50acc2a18866e53d4fdd54deea92cd416ca1aaa0",
   "HEAD_STATE": "COMMIT",
   "LATEST_TAG": "v1.0.0",
   "REMOTE_EXISTS": false,
   "REMOTE_URL": null,
   "REPOSITORY_EXISTS": true,
   "TAG_EXISTS": true,
-  "WORKTREE_CLEAN": false,
+  "WORKTREE_CLEAN": true,
   "biological_rerun": false,
   "discussion_modified": false,
   "environment_values_read": false,
@@ -26,12 +26,12 @@
     "TUSHARE_TOKEN"
   ],
   "figure1_8_modified": false,
-  "generated_at_local": "2026-09-02T08:49:50+08:00",
+  "generated_at_local": "2026-09-02T08:55:49+08:00",
   "historical_exact_version_not_recoverable": true,
   "large_release_scope_files": [],
   "permanent_identifier_found": false,
   "permanent_identifier_verification": "NONE_VERIFIED_LOCALLY",
-  "phase": "post-release",
+  "phase": "final",
   "protected_directory_inventory": {
     "roots": [
       {
@@ -70,8 +70,8 @@
   },
   "release_anchor": {
     "release_anchor_is_immutable_local_tag": true,
-    "release_commit": "302d29c7570b20c549cddc90580fc60a3a2ce4f9",
-    "release_date": "2026-09-02T08:40:48+08:00",
+    "release_commit": "1c0303049ba629b9b986cb9a7e088384f15f5a87",
+    "release_date": "2026-09-02T08:53:16+08:00",
     "release_tag": "v1.0.0",
     "tag_object_type": "tag"
   },
@@ -96,29 +96,31 @@
     },
     "git_root": "C:/Users/Administrator/OneDrive/文档/湘南学院单细胞",
     "git_root_error": null,
-    "head_commit": "302d29c7570b20c549cddc90580fc60a3a2ce4f9",
+    "head_commit": "50acc2a18866e53d4fdd54deea92cd416ca1aaa0",
     "head_error": null,
     "head_state": "COMMIT",
     "latest_tag": "v1.0.0",
     "recent_log": [
-      "302d29c (HEAD -> codex/module7-sctenifoldknk, tag: v1.0.0) chore: freeze manuscript analysis code for Stage22 closure"
+      "50acc2a (HEAD -> codex/module7-sctenifoldknk) fix: make Stage22 archival manifest audit self-consistent",
+      "1c03030 (tag: v1.0.0) docs: record Stage22 repository archival closure",
+      "302d29c chore: freeze manuscript analysis code for Stage22 closure"
     ],
     "remote_error": null,
     "remote_exists": false,
     "remote_urls": [],
     "repository_exists": true,
-    "status_entry_count": 19,
+    "status_entry_count": 0,
     "status_error": null,
-    "status_text": "M  \"22-SCI\\347\\224\\237\\344\\277\\241\\347\\240\\224\\347\\251\\266Introduction\\346\\222\\260\\345\\206\\231\\345\\231\\250/code_repository_archival_closure_v1/01_git_audit/CLOSURE_COMMAND_LOG.md\"\nMM \"22-SCI\\347\\224\\237\\344\\277\\241\\347\\240\\224\\347\\251\\266Introduction\\346\\222\\260\\345\\206\\231\\345\\231\\250/code_repository_archival_closure_v1/01_git_audit/build_stage22_closure.py\"\nM  \"22-SCI\\347\\224\\237\\344\\277\\241\\347\\240\\224\\347\\251\\266Introduction\\346\\222\\260\\345\\206\\231\\345\\231\\250/code_repository_archival_closure_v1/01_git_audit/repository_provenance_audit.json\"\nM  \"22-SCI\\347\\224\\237\\344\\277\\241\\347\\240\\224\\347\\251\\266Introduction\\346\\222\\260\\345\\206\\231\\345\\231\\250/code_repository_archival_closure_v1/01_git_audit/repository_provenance_audit.md\"\nM  \"22-SCI\\347\\224\\237\\344\\277\\241\\347\\240\\224\\347\\251\\266Introduction\\346\\222\\260\\345\\206\\231\\345\\231\\250/code_repository_archival_closure_v1/04_release/RELEASE_RECORD.json\"\nM  \"22-SCI\\347\\224\\237\\344\\277\\241\\347\\240\\224\\347\\251\\266Introduction\\346\\222\\260\\345\\206\\231\\345\\231\\250/code_repository_archival_closure_v1/04_release/RELEASE_RECORD.md\"\nM  \"22-SCI\\347\\224\\237\\344\\277\\241\\347\\240\\224\\347\\251\\266Introduction\\346\\222\\260\\345\\206\\231\\345\\231\\250/code_repository_archival_closure_v1/05_remote/REMOTE_REPOSITORY_AUDIT.json\"\nM  \"22-SCI\\347\\224\\237\\344\\277\\241\\347\\240\\224\\347\\251\\266Introduction\\346\\222\\260\\345\\206\\231\\345\\231\\250/code_repository_archival_closure_v1/05_remote/REMOTE_REPOSITORY_AUDIT.md\"\nM  \"22-SCI\\347\\224\\237\\344\\277\\241\\347\\240\\224\\347\\251\\266Introduction\\346\\222\\260\\345\\206\\231\\345\\231\\250/code_repository_archival_closure_v1/06_archive/PERMANENT_IDENTIFIER_RECORD.json\"\nM  \"22-SCI\\347\\224\\237\\344\\277\\241\\347\\240\\224\\347\\251\\266Introduction\\346\\222\\260\\345\\206\\231\\345\\231\\250/code_repository_archival_closure_v1/06_archive/ZENODO_ARCHIVAL_PREPARATION.md\"\nM  \"22-SCI\\347\\224\\237\\344\\277\\241\\347\\240\\224\\347\\251\\266Introduction\\346\\222\\260\\345\\206\\231\\345\\231\\250/code_repository_archival_closure_v1/07_manuscript_wording/CODE_AVAILABILITY_FINAL_TEXT.md\"\nM  \"22-SCI\\347\\224\\237\\344\\277\\241\\347\\240\\224\\347\\251\\266Introduction\\346\\222\\260\\345\\206\\231\\345\\231\\250/code_repository_archival_closure_v1/08_qa/CODE_REPOSITORY_FINAL_QA.json\"\nM  \"22-SCI\\347\\224\\237\\344\\277\\241\\347\\240\\224\\347\\251\\266Introduction\\346\\222\\260\\345\\206\\231\\345\\231\\250/code_repository_archival_closure_v1/08_qa/CODE_REPOSITORY_FINAL_QA.md\"\nM  \"22-SCI\\347\\224\\237\\344\\277\\241\\347\\240\\224\\347\\251\\266Introduction\\346\\222\\260\\345\\206\\231\\345\\231\\250/code_repository_archival_closure_v1/09_stage22_update/STAGE22_REPOSITORY_CLOSURE_RECORD.json\"\nM  \"22-SCI\\347\\224\\237\\344\\277\\241\\347\\240\\224\\347\\251\\266Introduction\\346\\222\\260\\345\\206\\231\\345\\231\\250/code_repository_archival_closure_v1/09_stage22_update/STAGE22_REPOSITORY_STATUS.md\"\nM  \"22-SCI\\347\\224\\237\\344\\277\\241\\347\\240\\224\\347\\251\\266Introduction\\346\\222\\260\\345\\206\\231\\345\\231\\250/code_repository_archival_closure_v1/CODE_REPOSITORY_ARCHIVAL_GATE.json\"\nM  \"22-SCI\\347\\224\\237\\344\\277\\241\\347\\240\\224\\347\\251\\266Introduction\\346\\222\\260\\345\\206\\231\\345\\231\\250/code_repository_archival_closure_v1/CODE_REPOSITORY_ARCHIVAL_REPORT.md\"\nM  \"22-SCI\\347\\224\\237\\344\\277\\241\\347\\240\\224\\347\\251\\266Introduction\\346\\222\\260\\345\\206\\231\\345\\231\\250/code_repository_archival_closure_v1/PERMANENT_IDENTIFIER_RECORD.json\"\nM  \"22-SCI\\347\\224\\237\\344\\277\\241\\347\\240\\224\\347\\251\\266Introduction\\346\\222\\260\\345\\206\\231\\345\\231\\250/code_repository_archival_closure_v1/REPOSITORY_MANIFEST.tsv\"",
+    "status_text": "",
     "tag_exists": true,
     "tag_targets": {
-      "v1.0.0": "302d29c7570b20c549cddc90580fc60a3a2ce4f9"
+      "v1.0.0": "1c0303049ba629b9b986cb9a7e088384f15f5a87"
     },
     "tags": [
       "v1.0.0"
     ],
     "tracked_file_count": 402,
-    "worktree_clean": false
+    "worktree_clean": true
   },
   "results_modified": false,
   "schema_version": "stage22.repository_provenance_audit.v1",

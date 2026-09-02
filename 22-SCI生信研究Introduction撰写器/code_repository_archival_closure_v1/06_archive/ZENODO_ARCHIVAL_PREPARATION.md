@@ -2,7 +2,7 @@
 
 Repository: PENDING_EXTERNAL_CONFIRMATION
 Release tag: v1.0.0
-Release commit: 302d29c7570b20c549cddc90580fc60a3a2ce4f9
+Release commit: 1c0303049ba629b9b986cb9a7e088384f15f5a87
 Archive title: HCC hepatocyte state-transition single-cell analysis code
 Authors: PENDING_EXTERNAL_CONFIRMATION
 Description: Source scripts and reproducibility metadata for the HCC hepatocyte state-transition single-cell study, with protected-data and evidence-boundary records.
