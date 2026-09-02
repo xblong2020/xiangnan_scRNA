@@ -2,9 +2,8 @@
   "archive_url": null,
   "associated_commit": "1c0303049ba629b9b986cb9a7e088384f15f5a87",
   "evidence": [],
-  "generated_at_local": "2026-09-02T18:19:21+08:00",
+  "generated_at_local": "2026-09-02T18:23:56+08:00",
   "pending_fields": [
-    "public_repository_url",
     "archive_url",
     "permanent_identifier",
     "identifier_type",
@@ -14,9 +13,11 @@
   "permanent_identifier": null,
   "permanent_identifier_type": null,
   "release_version": "v1.0.0",
-  "repository_archival_status": "READY_FOR_MANUAL_ARCHIVAL",
+  "repository_archival_status": "MANUAL_GITHUB_RELEASE_REQUIRED",
+  "reason": "PENDING_GITHUB_RELEASE",
   "schema_version": "stage22.permanent_identifier_record.v1",
   "swhid": null,
-  "verification_status": "NOT_FOUND_OR_NOT_VERIFIED",
-  "zenodo_status": "READY_FOR_MANUAL_ARCHIVAL"
+  "verification_status": "GITHUB_REPOSITORY_PUBLISHED_TAG_VERIFIED",
+  "github_release_status": "MANUAL_ACTION_REQUIRED",
+  "zenodo_status": "WAITING_FOR_GITHUB_RELEASE"
 }

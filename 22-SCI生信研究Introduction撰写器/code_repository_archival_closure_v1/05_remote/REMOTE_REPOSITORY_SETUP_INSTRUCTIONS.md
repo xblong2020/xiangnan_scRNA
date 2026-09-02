@@ -1,13 +1,12 @@
 # Remote repository setup instructions
 
-Current status: REMOTE_REPOSITORY_STATUS = NOT_CONFIGURED
+Remote repository status: CONFIGURED_AND_VERIFIED
 
-Minimal one-time external action:
+Repository: https://github.com/xblong2020/xiangnan_scRNA
+Remote name: origin
+Main branch: main
+Verified main commit at first publication: a7ee1edb8c139e9dca94a3e3702c750701e019e0
+Verified annotated tag: v1.0.0
+Verified tag target: 1c0303049ba629b9b986cb9a7e088384f15f5a87
 
-1. Create or select a public GitHub/GitLab repository owned by the project team. Do not upload raw/restricted data, patient-level files, large sequencing objects, caches, environments, credentials, or unapproved derived outputs.
-2. From the project root, add the verified remote URL: git remote add origin <PUBLIC_REPOSITORY_URL>.
-3. Push the current release branch: git push -u origin codex/module7-sctenifoldknk.
-4. Push the immutable release tag: git push origin refs/tags/v1.0.0.
-5. Verify the public repository URL, branch mapping, tag target commit, and release visibility. Then enable Zenodo or another approved archive for that repository.
-
-The placeholder URL above is an instruction placeholder, not a repository claim. Replace it only with the URL returned by the repository provider.
+The repository is already configured locally and the non-force branch/tag pushes succeeded. The remaining GitHub action is manual publication of the normal v1.0.0 Release; see MANUAL_GITHUB_RELEASE_REQUIRED.md. Do not force-push or rewrite the frozen tag.

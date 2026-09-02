@@ -10,7 +10,7 @@ abstract: >-
   Reproducibility code for an HCC single-cell study of hepatocyte identity
   loss, stress-transition, and SOX4-associated malignant-like state
   stabilization, with explicit evidence and provenance boundaries.
-repository-code: "PENDING_EXTERNAL_CONFIRMATION"
+repository-code: "https://github.com/xblong2020/xiangnan_scRNA"
 license: "PENDING_EXTERNAL_CONFIRMATION"
 keywords:
   - hepatocellular carcinoma

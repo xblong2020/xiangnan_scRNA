@@ -46,8 +46,8 @@ The principal workflow order is data intake and download records → preprocessi
 
 This closure performs Git, filesystem, provenance, release-preparation, and documentation work only. No biological analysis was rerun; no new cohort or biological result was created; Figure 1–8, Results, and Discussion were not modified; Stage19 was not reopened; and Stage23 is not entered automatically. The release tag and commit recorded in the closure package describe repository provenance, not a new scientific analysis.
 
-At the time of this closure, a public remote repository and a permanent archive identifier must be independently verified before the repository blocker can close. A release-ready local tag does not equal a DOI.
+The public GitHub repository is https://github.com/xblong2020/xiangnan_scRNA. The verified remote main publication commit is a7ee1edb8c139e9dca94a3e3702c750701e019e0, and the frozen annotated tag v1.0.0 points to 1c0303049ba629b9b986cb9a7e088384f15f5a87. The GitHub Release page still requires manual creation because the GitHub CLI is unavailable in this environment. Zenodo archival and its permanent identifier remain pending.
 
 ## Citation
 
-Until a public remote and archive identifier are verified, cite the local release as the project code release with tag v1.0.0 and preserve the PENDING_REPOSITORY_ARCHIVAL status in manuscript records. After manual archival, replace the pending repository/archive fields only with the returned public URL, immutable release tag, and verified DOI or other permanent identifier. See CITATION.cff and the Stage22 closure package for the evidence trail.
+The analysis code is publicly available at https://github.com/xblong2020/xiangnan_scRNA, release v1.0.0. A Zenodo permanent archival identifier remains pending. After Zenodo returns a real DOI, replace only the pending archive fields with the verified DOI and record URL. See CITATION.cff and the Stage22 closure package for the evidence trail.

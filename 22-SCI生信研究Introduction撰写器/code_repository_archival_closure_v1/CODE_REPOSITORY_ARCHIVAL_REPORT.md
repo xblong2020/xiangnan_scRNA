@@ -4,20 +4,23 @@
 
 | Field | Value |
 |---|---|
-| REPOSITORY_ARCHIVAL_STATUS | READY_FOR_MANUAL_ARCHIVAL |
+| REPOSITORY_ARCHIVAL_STATUS | MANUAL_GITHUB_RELEASE_REQUIRED |
 | PENDING_REPOSITORY_ARCHIVAL | TRUE |
-| STAGE22_REPOSITORY_BLOCKER | PENDING_EXTERNAL_ACTION |
+| STAGE22_REPOSITORY_BLOCKER | PENDING_GITHUB_RELEASE |
 | RELEASE_TAG | v1.0.0 |
 | RELEASE_COMMIT | 1c0303049ba629b9b986cb9a7e088384f15f5a87 |
-| CURRENT_HEAD_AT_AUDIT | e1f8122c26847a32629df37da8c0de21ea11a657 |
-| REMOTE_REPOSITORY_STATUS | NOT_CONFIGURED |
-| ZENODO_STATUS | READY_FOR_MANUAL_ARCHIVAL |
+| CURRENT_HEAD_AT_AUDIT | a7ee1edb8c139e9dca94a3e3702c750701e019e0 |
+| REMOTE_REPOSITORY_STATUS | CONFIGURED_AND_VERIFIED |
+| GITHUB_REPOSITORY_URL | https://github.com/xblong2020/xiangnan_scRNA |
+| GITHUB_MAIN_COMMIT | a7ee1edb8c139e9dca94a3e3702c750701e019e0 |
+| GITHUB_RELEASE_STATUS | MANUAL_ACTION_REQUIRED |
+| ZENODO_STATUS | WAITING_FOR_GITHUB_RELEASE |
 | PERMANENT_IDENTIFIER | NULL |
 
 ## Decision rationale
 
-The repository has a local Git provenance record and an annotated release tag when shown above. No public remote, archive response, DOI, SWHID, or other permanent identifier is verified locally.
-Therefore the repository archival blocker remains pending external action. The local release package is ready for the project owner to publish once, then append the provider verification evidence.
+The public GitHub repository, main branch, and annotated v1.0.0 tag are verified. The GitHub Release object remains a manual action because the GitHub CLI is unavailable. No DOI, SWHID, or other permanent identifier is verified locally.
+Therefore the repository archival blocker remains pending GitHub Release publication and subsequent Zenodo archival.
 
 ## Scope protection
 
@@ -30,4 +33,4 @@ Therefore the repository archival blocker remains pending external action. The l
 
 ## Minimum manual action
 
-Create/configure the public remote, push the release branch and the immutable release tag, enable Zenodo or another approved archive, record the returned DOI or other permanent identifier, verify its URL and associated commit, and replace only the explicit pending fields in the closure records.
+Publish the normal GitHub Release v1.0.0 from the existing public repository, enable Zenodo or another approved archive, record the returned DOI or other permanent identifier, verify its URL and associated commit, and replace only the explicit pending fields in the closure records.

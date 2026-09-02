@@ -11,3 +11,12 @@ Audit phase: final
 - Local tag re-anchor: v1.0.0 was re-anchored before external publication from 302d29c7570b20c549cddc90580fc60a3a2ce4f9 to the corrected release commit; no remote tag existed.
 
 No scVI/scanVI, CopyKAT, trajectory, SCENIC, CellOracle, scTenifoldKnk, external-validation, or figure-generation entry point was executed by this closure.
+
+## GitHub publication events
+
+- Target repository preflight: git ls-remote https://github.com/xblong2020/xiangnan_scRNA.git returned zero refs with exit code 0.
+- Remote configured: origin = https://github.com/xblong2020/xiangnan_scRNA.git.
+- Non-force branch publication: git push -u origin HEAD:main; remote main matched a7ee1edb8c139e9dca94a3e3702c750701e019e0.
+- Non-force tag publication: git push origin v1.0.0; remote peeled tag target matched 1c0303049ba629b9b986cb9a7e088384f15f5a87.
+- GitHub CLI audit: gh was not installed; no Release API call was attempted. Manual release instructions were generated.
+- Zenodo DOI: no DOI was generated or inferred; PERMANENT_IDENTIFIER remains null.

@@ -1,14 +1,24 @@
 {
-  "REMOTE_PUSH_STATUS": "NOT_APPLICABLE_NO_REMOTE",
-  "REMOTE_REPOSITORY_STATUS": "NOT_CONFIGURED",
-  "REMOTE_URL": null,
+  "REMOTE_PUSH_STATUS": "SUCCESS",
+  "REMOTE_REPOSITORY_STATUS": "CONFIGURED_AND_VERIFIED",
+  "REMOTE_URL": "https://github.com/xblong2020/xiangnan_scRNA.git",
   "branch": "codex/module7-sctenifoldknk",
-  "generated_at_local": "2026-09-02T18:19:21+08:00",
-  "reason": "No local remote is configured.",
+  "generated_at_local": "2026-09-02T18:23:56+08:00",
+  "github_release_status": "MANUAL_ACTION_REQUIRED",
+  "github_release_url": null,
+  "github_release_url_expected": "https://github.com/xblong2020/xiangnan_scRNA/releases/tag/v1.0.0",
+  "repository_name": "xiangnan_scRNA",
+  "repository_owner": "xblong2020",
+  "repository_visibility": "PUBLIC",
+  "remote_main_commit": "a7ee1edb8c139e9dca94a3e3702c750701e019e0",
+  "remote_tag_target": "1c0303049ba629b9b986cb9a7e088384f15f5a87",
+  "reason": "GitHub repository is public and empty before publication; main and the annotated v1.0.0 tag were pushed and verified.",
   "release_commit": "1c0303049ba629b9b986cb9a7e088384f15f5a87",
   "release_tag": "v1.0.0",
-  "remote_accessibility_verified": false,
-  "remote_tag_presence_verified": false,
-  "remote_urls": [],
+  "remote_accessibility_verified": true,
+  "remote_tag_presence_verified": true,
+  "remote_urls": [
+    "https://github.com/xblong2020/xiangnan_scRNA.git"
+  ],
   "schema_version": "stage22.remote_audit.v1"
 }

@@ -1,7 +1,7 @@
 # Code Availability final wording
 
-Current status: READY_FOR_MANUAL_ARCHIVAL
+Current status: MANUAL_GITHUB_RELEASE_REQUIRED
 
-The analysis code is locally frozen under release tag v1.0.0. A public repository URL and permanent archival identifier remain pending external action.
+The analysis code is publicly available at https://github.com/xblong2020/xiangnan_scRNA, release v1.0.0. A Zenodo permanent archival identifier remains pending external archival. The GitHub Release page requires manual publication.
 
-The bracketed values are explicit external-confirmation fields. No DOI or repository URL is asserted until independently verified.
+The repository URL and release tag above are verified. The archive URL and DOI remain explicit external-confirmation fields.
