@@ -1,23 +1,23 @@
 # Repository provenance audit
 
-Generated locally: 2026-09-02T08:36:24+08:00
-Audit phase: initial
+Generated locally: 2026-09-02T08:49:50+08:00
+Audit phase: post-release
 
 | Field | Value |
 |---|---|
 | REPOSITORY_EXISTS | TRUE |
 | GIT_ROOT | C:/Users/Administrator/OneDrive/文档/湘南学院单细胞 |
 | CURRENT_BRANCH | codex/module7-sctenifoldknk |
-| HEAD_COMMIT | NULL |
-| HEAD_STATE | UNBORN_OR_UNRESOLVED |
+| HEAD_COMMIT | 302d29c7570b20c549cddc90580fc60a3a2ce4f9 |
+| HEAD_STATE | COMMIT |
 | REMOTE_EXISTS | FALSE |
 | REMOTE_URL | NULL |
-| TAG_EXISTS | FALSE |
-| LATEST_TAG | NULL |
+| TAG_EXISTS | TRUE |
+| LATEST_TAG | v1.0.0 |
 | WORKTREE_CLEAN | FALSE |
 | ARCHIVAL_READY | FALSE |
-| RELEASE_TAG | NULL |
-| RELEASE_COMMIT | NULL |
+| RELEASE_TAG | v1.0.0 |
+| RELEASE_COMMIT | 302d29c7570b20c549cddc90580fc60a3a2ce4f9 |
 | REMOTE_REPOSITORY_STATUS | NOT_CONFIGURED |
 | REMOTE_PUSH_STATUS | NOT_APPLICABLE_NO_REMOTE |
 
@@ -36,6 +36,6 @@ The release scope excludes protected data, generated figures/results, local envi
 | sensitive scan | PASS_NO_RELEASE_SCOPE_SECRET_PATTERN |
 | fake/unverified repository DOI scan | PASS_NO_UNVERIFIED_REPOSITORY_DOI |
 | Stage19 reopening scan | PASS_NO_STAGE19_REOPEN_COMMAND_OR_TRUE_FLAG |
-| protected Figure/Results/Discussion scan | BASELINE_CREATED |
+| protected Figure/Results/Discussion scan | PASS_NO_FIGURE_RESULTS_DISCUSSION_MODIFICATION |
 | historical_exact_version_not_recoverable | TRUE |
 | biological rerun | FALSE |

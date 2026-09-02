@@ -1,6 +1,6 @@
 # Code Availability final wording
 
-Current status: NOT_READY
+Current status: READY_FOR_MANUAL_ARCHIVAL
 
 The analysis code is locally frozen under release tag v1.0.0. A public repository URL and permanent archival identifier remain pending external action.
 

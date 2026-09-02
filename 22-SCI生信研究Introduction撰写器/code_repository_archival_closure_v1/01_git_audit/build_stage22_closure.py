@@ -1042,19 +1042,18 @@ def build(args: argparse.Namespace) -> None:
         ),
     )
 
-    rows = manifest_rows(release_paths())
-    write_manifest(rows)
-    manifest_hash = sha256(CLOSURE / "REPOSITORY_MANIFEST.tsv")
+    manifest_row_count = len(release_paths())
     qa["manifest_sha256_status"] = "PASS_MANIFEST_ROWS_HASHED"
-    qa["manifest_row_count"] = len(rows)
+    qa["manifest_row_count"] = manifest_row_count
     qa["manifest_self_hash_excluded"] = True
-    qa["manifest_file_sha256"] = manifest_hash
     write_json(CLOSURE / "08_qa" / "CODE_REPOSITORY_FINAL_QA.json", qa)
     write_text(
         CLOSURE / "08_qa" / "CODE_REPOSITORY_FINAL_QA.md",
         CLOSURE.joinpath("08_qa", "CODE_REPOSITORY_FINAL_QA.md").read_text(encoding="utf-8")
-        + f"\nManifest rows: {len(rows)}\nManifest self-hash: excluded to avoid a circular hash.\n",
+        + f"\nManifest rows: {manifest_row_count}\nManifest self-hash: excluded to avoid a circular hash.\n",
     )
+    rows = manifest_rows(release_paths())
+    write_manifest(rows)
 
 
 def parse_args() -> argparse.Namespace:

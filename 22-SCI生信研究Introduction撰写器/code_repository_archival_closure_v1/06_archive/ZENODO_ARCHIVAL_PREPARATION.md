@@ -1,8 +1,8 @@
 # Zenodo archival preparation
 
 Repository: PENDING_EXTERNAL_CONFIRMATION
-Release tag: PENDING_UNTIL_LOCAL_RELEASE
-Release commit: PENDING_UNTIL_LOCAL_RELEASE
+Release tag: v1.0.0
+Release commit: 302d29c7570b20c549cddc90580fc60a3a2ce4f9
 Archive title: HCC hepatocyte state-transition single-cell analysis code
 Authors: PENDING_EXTERNAL_CONFIRMATION
 Description: Source scripts and reproducibility metadata for the HCC hepatocyte state-transition single-cell study, with protected-data and evidence-boundary records.

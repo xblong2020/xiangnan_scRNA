@@ -1,8 +1,8 @@
 {
   "archive_url": null,
-  "associated_commit": null,
+  "associated_commit": "302d29c7570b20c549cddc90580fc60a3a2ce4f9",
   "evidence": [],
-  "generated_at_local": "2026-09-02T08:36:24+08:00",
+  "generated_at_local": "2026-09-02T08:49:50+08:00",
   "pending_fields": [
     "public_repository_url",
     "archive_url",
@@ -14,7 +14,7 @@
   "permanent_identifier": null,
   "permanent_identifier_type": null,
   "release_version": "v1.0.0",
-  "repository_archival_status": "NOT_READY",
+  "repository_archival_status": "READY_FOR_MANUAL_ARCHIVAL",
   "schema_version": "stage22.permanent_identifier_record.v1",
   "swhid": null,
   "verification_status": "NOT_FOUND_OR_NOT_VERIFIED",

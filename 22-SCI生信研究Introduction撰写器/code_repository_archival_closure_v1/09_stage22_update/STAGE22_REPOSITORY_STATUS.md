@@ -3,13 +3,13 @@
 | Field | Value |
 |---|---|
 | Stage22 status | STAGE22_MANUSCRIPT_INTEGRATION_IN_PROGRESS |
-| Repository archival status | NOT_READY |
+| Repository archival status | READY_FOR_MANUAL_ARCHIVAL |
 | PENDING_REPOSITORY_ARCHIVAL | TRUE |
-| STAGE22_REPOSITORY_BLOCKER | OPEN |
+| STAGE22_REPOSITORY_BLOCKER | PENDING_EXTERNAL_ACTION |
 | Remote repository | NOT_CONFIGURED |
 | Zenodo status | READY_FOR_MANUAL_ARCHIVAL |
-| Release tag | NULL |
-| Release commit | NULL |
+| Release tag | v1.0.0 |
+| Release commit | 302d29c7570b20c549cddc90580fc60a3a2ce4f9 |
 | Stage19 | STAGE19_CLOSED_WITH_LIMITATIONS |
 | Stage19 reopened | FALSE |
 | Stage23 auto-handoff | FALSE |
