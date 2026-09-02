@@ -633,6 +633,8 @@ def build(args: argparse.Namespace) -> None:
         "initial_repository_head_state": "UNBORN_OR_UNRESOLVED",
         "current_head_at_audit": state["head_commit"],
         "post_release_closure_commit": args.closure_commit,
+        "tag_reanchored_before_external_publication": args.tag_reanchored_before_publication,
+        "previous_tag_target": args.previous_release_commit,
         "release_scope_manifest": "REPOSITORY_MANIFEST.tsv",
         "external_release_published": False,
         "external_release_verification": "PENDING_EXTERNAL_CONFIRMATION",
@@ -823,6 +825,8 @@ def build(args: argparse.Namespace) -> None:
         "release_commit": release_commit,
         "current_head_at_audit": state["head_commit"],
         "post_release_closure_commit": args.closure_commit,
+        "tag_reanchored_before_external_publication": args.tag_reanchored_before_publication,
+        "previous_tag_target": args.previous_release_commit,
         "stage19_status": "STAGE19_CLOSED_WITH_LIMITATIONS",
         "stage19_reopened": False,
         "stage23_auto_handoff": False,
@@ -965,6 +969,8 @@ def build(args: argparse.Namespace) -> None:
         "HEAD_COMMIT": state["head_commit"],
         "RELEASE_TAG": release_tag,
         "RELEASE_COMMIT": release_commit,
+        "TAG_REANCHORED_BEFORE_EXTERNAL_PUBLICATION": args.tag_reanchored_before_publication,
+        "PREVIOUS_TAG_TARGET": args.previous_release_commit,
         "REMOTE_REPOSITORY_STATUS": remote_status,
         "ZENODO_STATUS": "READY_FOR_MANUAL_ARCHIVAL",
         "PERMANENT_IDENTIFIER": None,
@@ -1036,6 +1042,13 @@ def build(args: argparse.Namespace) -> None:
                 "- Local metadata builder: 22-SCI生信研究Introduction撰写器/code_repository_archival_closure_v1/01_git_audit/build_stage22_closure.py; it does not import or execute biological analysis modules.",
                 "- Git mutation scope: only the explicitly allowlisted release source/metadata files and Stage22 closure records.",
                 "- External push/upload: not attempted when no remote or archive authorization is configured.",
+                (
+                    "- Local tag re-anchor: v1.0.0 was re-anchored before external publication from "
+                    + (args.previous_release_commit or "an earlier local target")
+                    + " to the corrected release commit; no remote tag existed."
+                    if args.tag_reanchored_before_publication
+                    else "- Local tag re-anchor: not used in this audit phase."
+                ),
                 "",
                 "No scVI/scanVI, CopyKAT, trajectory, SCENIC, CellOracle, scTenifoldKnk, external-validation, or figure-generation entry point was executed by this closure.",
             ]
@@ -1062,6 +1075,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--release-tag")
     parser.add_argument("--release-commit")
     parser.add_argument("--closure-commit")
+    parser.add_argument("--previous-release-commit")
+    parser.add_argument("--tag-reanchored-before-publication", action="store_true")
     return parser.parse_args()
 
 
