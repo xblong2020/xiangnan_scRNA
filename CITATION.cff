@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this software, cite the immutable release tag and the verified archive identifier when it is available."
+title: "HCC hepatocyte state-transition single-cell analysis code"
+type: software
+authors:
+  - name: "PENDING_EXTERNAL_CONFIRMATION"
+version: "v1.0.0"
+date-released: "2026-09-02"
+abstract: >-
+  Reproducibility code for an HCC single-cell study of hepatocyte identity
+  loss, stress-transition, and SOX4-associated malignant-like state
+  stabilization, with explicit evidence and provenance boundaries.
+repository-code: "PENDING_EXTERNAL_CONFIRMATION"
+license: "PENDING_EXTERNAL_CONFIRMATION"
+keywords:
+  - hepatocellular carcinoma
+  - HCC
+  - single-cell RNA sequencing
+  - hepatocyte state transition
+  - reproducibility
+preferred-citation:
+  type: software
+  title: "HCC hepatocyte state-transition single-cell analysis code"
+  authors:
+    - name: "PENDING_EXTERNAL_CONFIRMATION"
+  version: "v1.0.0"
+  date-released: "2026-09-02"

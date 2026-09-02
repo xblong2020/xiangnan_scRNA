@@ -1,0 +1,16 @@
+{
+  "current_head_at_audit": null,
+  "external_release_published": false,
+  "external_release_verification": "PENDING_EXTERNAL_CONFIRMATION",
+  "generated_at_local": "2026-09-02T08:36:24+08:00",
+  "history_rewritten": false,
+  "initial_repository_head_state": "UNBORN_OR_UNRESOLVED",
+  "post_release_closure_commit": null,
+  "release_commit": null,
+  "release_date": null,
+  "release_scope_manifest": "REPOSITORY_MANIFEST.tsv",
+  "release_tag": null,
+  "schema_version": "stage22.release_record.v1",
+  "tag_message": "PENDING_UNTIL_LOCAL_RELEASE",
+  "tag_object_type": null
+}
