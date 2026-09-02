@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | QA phase | final |
-| HEAD_COMMIT at audit | 50acc2a18866e53d4fdd54deea92cd416ca1aaa0 |
+| HEAD_COMMIT at audit | e1f8122c26847a32629df37da8c0de21ea11a657 |
 | Release tag | v1.0.0 |
 | Release commit | 1c0303049ba629b9b986cb9a7e088384f15f5a87 |
 | Annotated tag | TRUE |
