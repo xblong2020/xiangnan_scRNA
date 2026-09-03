@@ -6,14 +6,14 @@
   "GITHUB_RELEASE_URL": "https://github.com/xblong2020/xiangnan_scRNA/releases/tag/v1.0.0",
   "GITHUB_RELEASE_VERIFIED": true,
   "GIT_ROOT": "REDACTED_LOCAL_PATH",
-  "HEAD_COMMIT": "b024f6aae586b326bd91b8b0c2fc0d51b47a3540",
+  "HEAD_COMMIT": "8a258476795f620f0357a9635785f1b8dd565c57",
   "HEAD_STATE": "COMMIT",
   "LATEST_TAG": "v1.0.0",
   "REMOTE_EXISTS": true,
   "REMOTE_URL": "https://github.com/xblong2020/xiangnan_scRNA.git",
   "REPOSITORY_EXISTS": true,
   "TAG_EXISTS": true,
-  "WORKTREE_CLEAN": false,
+  "WORKTREE_CLEAN": true,
   "ZENODO_STATUS": "MANUAL_ACTION_REQUIRED",
   "biological_rerun": false,
   "discussion_modified": false,
@@ -31,7 +31,7 @@
     "TUSHARE_TOKEN"
   ],
   "figure1_8_modified": false,
-  "generated_at_local": "2026-09-03T09:34:41+08:00",
+  "generated_at_local": "2026-09-03T09:40:29+08:00",
   "historical_exact_version_not_recoverable": true,
   "large_release_scope_files": [],
   "permanent_identifier_found": false,
@@ -101,12 +101,13 @@
     },
     "git_root": "REDACTED_LOCAL_PATH",
     "git_root_error": null,
-    "head_commit": "b024f6aae586b326bd91b8b0c2fc0d51b47a3540",
+    "head_commit": "8a258476795f620f0357a9635785f1b8dd565c57",
     "head_error": null,
     "head_state": "COMMIT",
     "latest_tag": "v1.0.0",
     "recent_log": [
-      "b024f6a (HEAD -> codex/module7-sctenifoldknk, origin/main) stage22: record verified GitHub release and Zenodo pending",
+      "8a25847 (HEAD -> codex/module7-sctenifoldknk, origin/main) stage22: record Zenodo archival pending",
+      "b024f6a stage22: record verified GitHub release and Zenodo pending",
       "d1b9d7e docs: record GitHub publication for Stage22 archival",
       "a7ee1ed docs: refresh Stage22 publication safety audit",
       "e1f8122 docs: finalize Stage22 repository archival QA",
@@ -120,9 +121,9 @@
       "https://github.com/xblong2020/xiangnan_scRNA.git"
     ],
     "repository_exists": true,
-    "status_entry_count": 20,
+    "status_entry_count": 0,
     "status_error": null,
-    "status_text": "REDACTED_STATUS_PATHS",
+    "status_text": "",
     "tag_exists": true,
     "tag_targets": {
       "v1.0.0": "1c0303049ba629b9b986cb9a7e088384f15f5a87"
@@ -131,7 +132,7 @@
       "v1.0.0"
     ],
     "tracked_file_count": 407,
-    "worktree_clean": false
+    "worktree_clean": true
   },
   "results_modified": false,
   "schema_version": "stage22.repository_provenance_audit.v1",

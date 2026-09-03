@@ -1,6 +1,6 @@
 # Repository provenance audit
 
-Generated locally: 2026-09-03T09:34:41+08:00
+Generated locally: 2026-09-03T09:40:29+08:00
 Audit phase: final
 
 | Field | Value |
@@ -8,13 +8,13 @@ Audit phase: final
 | REPOSITORY_EXISTS | TRUE |
 | GIT_ROOT | REDACTED_LOCAL_PATH |
 | CURRENT_BRANCH | codex/module7-sctenifoldknk |
-| HEAD_COMMIT | b024f6aae586b326bd91b8b0c2fc0d51b47a3540 |
+| HEAD_COMMIT | 8a258476795f620f0357a9635785f1b8dd565c57 |
 | HEAD_STATE | COMMIT |
 | REMOTE_EXISTS | TRUE |
 | REMOTE_URL | https://github.com/xblong2020/xiangnan_scRNA.git |
 | TAG_EXISTS | TRUE |
 | LATEST_TAG | v1.0.0 |
-| WORKTREE_CLEAN | FALSE |
+| WORKTREE_CLEAN | TRUE |
 | ARCHIVAL_READY | FALSE |
 | RELEASE_TAG | v1.0.0 |
 | RELEASE_COMMIT | 1c0303049ba629b9b986cb9a7e088384f15f5a87 |

@@ -3,20 +3,20 @@
 | Field | Value |
 |---|---|
 | QA phase | final |
-| HEAD_COMMIT at audit | b024f6aae586b326bd91b8b0c2fc0d51b47a3540 |
+| HEAD_COMMIT at audit | 8a258476795f620f0357a9635785f1b8dd565c57 |
 | Release tag | v1.0.0 |
 | Release commit | 1c0303049ba629b9b986cb9a7e088384f15f5a87 |
 | Annotated tag | TRUE |
 | Tag target matches release commit | TRUE |
 | Remote repository status | CONFIGURED_AND_VERIFIED |
 | Tag integrity | TRUE |
-| Remote main commit | b024f6aae586b326bd91b8b0c2fc0d51b47a3540 |
+| Remote main commit | 8a258476795f620f0357a9635785f1b8dd565c57 |
 | GitHub Release status | PUBLISHED |
 | GitHub Release verified | TRUE |
 | GitHub Release URL | https://github.com/xblong2020/xiangnan_scRNA/releases/tag/v1.0.0 |
 | Zenodo status | MANUAL_ACTION_REQUIRED |
 | Permanent identifier | NULL |
-| Git worktree clean at audit | FALSE |
+| Git worktree clean at audit | TRUE |
 | Sensitive-file scan | PASS_NO_RELEASE_SCOPE_SECRET_PATTERN |
 | Secret scan | PASS_NO_RELEASE_SCOPE_SECRET_PATTERN |
 | Large-file scan | PASS_NO_RELEASE_SCOPE_LARGE_FILE |
