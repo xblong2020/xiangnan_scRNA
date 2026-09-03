@@ -1,25 +1,25 @@
 # Repository provenance audit
 
-Generated locally: 2026-09-02T18:19:21+08:00
+Generated locally: 2026-09-03T09:09:05+08:00
 Audit phase: final
 
 | Field | Value |
 |---|---|
 | REPOSITORY_EXISTS | TRUE |
-| GIT_ROOT | C:/Users/Administrator/OneDrive/文档/湘南学院单细胞 |
+| GIT_ROOT | REDACTED_LOCAL_PATH |
 | CURRENT_BRANCH | codex/module7-sctenifoldknk |
-| HEAD_COMMIT | e1f8122c26847a32629df37da8c0de21ea11a657 |
+| HEAD_COMMIT | d1b9d7e39a5e2d563b4ad286b770c8fef350c360 |
 | HEAD_STATE | COMMIT |
-| REMOTE_EXISTS | FALSE |
-| REMOTE_URL | NULL |
+| REMOTE_EXISTS | TRUE |
+| REMOTE_URL | https://github.com/xblong2020/xiangnan_scRNA.git |
 | TAG_EXISTS | TRUE |
 | LATEST_TAG | v1.0.0 |
-| WORKTREE_CLEAN | TRUE |
+| WORKTREE_CLEAN | FALSE |
 | ARCHIVAL_READY | FALSE |
 | RELEASE_TAG | v1.0.0 |
 | RELEASE_COMMIT | 1c0303049ba629b9b986cb9a7e088384f15f5a87 |
-| REMOTE_REPOSITORY_STATUS | NOT_CONFIGURED |
-| REMOTE_PUSH_STATUS | NOT_APPLICABLE_NO_REMOTE |
+| REMOTE_REPOSITORY_STATUS | CONFIGURED_AND_VERIFIED |
+| REMOTE_PUSH_STATUS | SUCCESS |
 
 ## Evidence interpretation
 

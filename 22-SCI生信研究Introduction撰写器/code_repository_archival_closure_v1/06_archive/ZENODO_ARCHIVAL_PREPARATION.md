@@ -11,6 +11,6 @@ License: PENDING_EXTERNAL_CONFIRMATION
 Keywords: hepatocellular carcinoma; HCC; single-cell RNA sequencing; hepatocyte state transition; reproducibility
 Related identifiers: GitHub repository https://github.com/xblong2020/xiangnan_scRNA; no verified code-repository DOI, SWHID, or archive identifier is available locally.
 
-ZENODO_STATUS = WAITING_FOR_GITHUB_RELEASE
+ZENODO_STATUS = MANUAL_ACTION_REQUIRED
 
-No DOI is generated or inferred in this preparation record. After the normal GitHub Release v1.0.0 is published, the project owner can enable the repository integration and record the DOI returned by Zenodo.
+No DOI is generated or inferred in this preparation record. After the GitHub Release is verified, the project owner can enable the repository integration and record the DOI returned by Zenodo.

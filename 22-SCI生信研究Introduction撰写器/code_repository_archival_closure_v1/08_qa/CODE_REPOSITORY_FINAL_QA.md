@@ -3,18 +3,19 @@
 | Field | Value |
 |---|---|
 | QA phase | final |
-| HEAD_COMMIT at publication audit | a7ee1edb8c139e9dca94a3e3702c750701e019e0 |
+| HEAD_COMMIT at audit | d1b9d7e39a5e2d563b4ad286b770c8fef350c360 |
 | Release tag | v1.0.0 |
 | Release commit | 1c0303049ba629b9b986cb9a7e088384f15f5a87 |
 | Annotated tag | TRUE |
 | Tag target matches release commit | TRUE |
 | Remote repository status | CONFIGURED_AND_VERIFIED |
-| Remote main commit | a7ee1edb8c139e9dca94a3e3702c750701e019e0 |
-| Remote tag target | 1c0303049ba629b9b986cb9a7e088384f15f5a87 |
-| GitHub repository status | PUBLIC_AND_VERIFIED |
-| GitHub Release status | MANUAL_ACTION_REQUIRED |
-| GitHub Release URL | NULL; expected URL is https://github.com/xblong2020/xiangnan_scRNA/releases/tag/v1.0.0 |
-| Git worktree clean at audit | TRUE |
+| Remote main commit | d1b9d7e39a5e2d563b4ad286b770c8fef350c360 |
+| GitHub Release status | PUBLISHED |
+| GitHub Release verified | TRUE |
+| GitHub Release URL | https://github.com/xblong2020/xiangnan_scRNA/releases/tag/v1.0.0 |
+| Zenodo status | MANUAL_ACTION_REQUIRED |
+| Permanent identifier | NULL |
+| Git worktree clean at audit | FALSE |
 | Sensitive-file scan | PASS_NO_RELEASE_SCOPE_SECRET_PATTERN |
 | Fake/unverified repository DOI scan | PASS_NO_UNVERIFIED_REPOSITORY_DOI |
 | Placeholder scan | PASS_DOCUMENTED_PENDING_FIELDS |
@@ -23,9 +24,14 @@
 | Figure 1–8 scan | PASS_NO_FIGURE_RESULTS_DISCUSSION_MODIFICATION |
 | Results/Discussion scan | PASS_NO_FIGURE_RESULTS_DISCUSSION_MODIFICATION |
 | Historical exact version | PASS_EXPLICIT_UNRECOVERABLE_STATUS_RETAINED |
+| Test command | python -B -m pytest tests |
+| Test status | PASS |
+| Test count | 274 |
+| Test duration seconds | 29.47 |
+| Test timestamp | 2026-09-03T09:16:18+08:00 |
 
 The protected-scope comparison hashes figures, reports, Results, and Discussion files against the closure baseline. No scientific result file was written by this closure.
-The remote main and tag values above are the first-publication values; later closure-record pushes are administrative and are checked separately. The GitHub Release object remains manual because the GitHub CLI is unavailable.
+The working-tree value is the exact state at audit generation. A post-release closure commit is an administrative record commit and must be followed by the final read-only Git check.
 
-Manifest rows: 404
+Manifest rows: 406
 Manifest self-hash: excluded to avoid a circular hash.

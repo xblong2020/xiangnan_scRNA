@@ -1,15 +1,20 @@
 {
   "ARCHIVAL_READY": false,
   "CURRENT_BRANCH": "codex/module7-sctenifoldknk",
-  "GIT_ROOT": "C:/Users/Administrator/OneDrive/文档/湘南学院单细胞",
-  "HEAD_COMMIT": "e1f8122c26847a32629df37da8c0de21ea11a657",
+  "FINAL_GATE": "MANUAL_ZENODO_ACTION_REQUIRED",
+  "GITHUB_RELEASE_STATUS": "PUBLISHED",
+  "GITHUB_RELEASE_URL": "https://github.com/xblong2020/xiangnan_scRNA/releases/tag/v1.0.0",
+  "GITHUB_RELEASE_VERIFIED": true,
+  "GIT_ROOT": "REDACTED_LOCAL_PATH",
+  "HEAD_COMMIT": "d1b9d7e39a5e2d563b4ad286b770c8fef350c360",
   "HEAD_STATE": "COMMIT",
   "LATEST_TAG": "v1.0.0",
-  "REMOTE_EXISTS": false,
-  "REMOTE_URL": null,
+  "REMOTE_EXISTS": true,
+  "REMOTE_URL": "https://github.com/xblong2020/xiangnan_scRNA.git",
   "REPOSITORY_EXISTS": true,
   "TAG_EXISTS": true,
-  "WORKTREE_CLEAN": true,
+  "WORKTREE_CLEAN": false,
+  "ZENODO_STATUS": "MANUAL_ACTION_REQUIRED",
   "biological_rerun": false,
   "discussion_modified": false,
   "environment_values_read": false,
@@ -26,7 +31,7 @@
     "TUSHARE_TOKEN"
   ],
   "figure1_8_modified": false,
-  "generated_at_local": "2026-09-02T18:19:21+08:00",
+  "generated_at_local": "2026-09-03T09:09:05+08:00",
   "historical_exact_version_not_recoverable": true,
   "large_release_scope_files": [],
   "permanent_identifier_found": false,
@@ -83,8 +88,8 @@
     "22-SCI生信研究Introduction撰写器/code_repository_archival_closure_v1/REPOSITORY_MANIFEST.tsv",
     "CITATION.cff"
   ],
-  "remote_push_status": "NOT_APPLICABLE_NO_REMOTE",
-  "remote_repository_status": "NOT_CONFIGURED",
+  "remote_push_status": "SUCCESS",
+  "remote_repository_status": "CONFIGURED_AND_VERIFIED",
   "repository": {
     "current_branch": "codex/module7-sctenifoldknk",
     "git_errors": {
@@ -94,25 +99,29 @@
       "tags": null,
       "tracked": null
     },
-    "git_root": "C:/Users/Administrator/OneDrive/文档/湘南学院单细胞",
+    "git_root": "REDACTED_LOCAL_PATH",
     "git_root_error": null,
-    "head_commit": "e1f8122c26847a32629df37da8c0de21ea11a657",
+    "head_commit": "d1b9d7e39a5e2d563b4ad286b770c8fef350c360",
     "head_error": null,
     "head_state": "COMMIT",
     "latest_tag": "v1.0.0",
     "recent_log": [
-      "e1f8122 (HEAD -> codex/module7-sctenifoldknk) docs: finalize Stage22 repository archival QA",
+      "d1b9d7e (HEAD -> codex/module7-sctenifoldknk, origin/main) docs: record GitHub publication for Stage22 archival",
+      "a7ee1ed docs: refresh Stage22 publication safety audit",
+      "e1f8122 docs: finalize Stage22 repository archival QA",
       "50acc2a fix: make Stage22 archival manifest audit self-consistent",
       "1c03030 (tag: v1.0.0) docs: record Stage22 repository archival closure",
       "302d29c chore: freeze manuscript analysis code for Stage22 closure"
     ],
     "remote_error": null,
-    "remote_exists": false,
-    "remote_urls": [],
+    "remote_exists": true,
+    "remote_urls": [
+      "https://github.com/xblong2020/xiangnan_scRNA.git"
+    ],
     "repository_exists": true,
-    "status_entry_count": 0,
+    "status_entry_count": 29,
     "status_error": null,
-    "status_text": "",
+    "status_text": "REDACTED_STATUS_PATHS",
     "tag_exists": true,
     "tag_targets": {
       "v1.0.0": "1c0303049ba629b9b986cb9a7e088384f15f5a87"
@@ -120,8 +129,8 @@
     "tags": [
       "v1.0.0"
     ],
-    "tracked_file_count": 402,
-    "worktree_clean": true
+    "tracked_file_count": 407,
+    "worktree_clean": false
   },
   "results_modified": false,
   "schema_version": "stage22.repository_provenance_audit.v1",

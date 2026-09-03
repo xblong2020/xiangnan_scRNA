@@ -6,7 +6,7 @@ The release scope is source-first: the top-level scripts/ tree, selected manuscr
 
 ## Reproduction principle
 
-Reproduction begins by checking out the verified immutable release tag, confirming the commit and manifest hashes, obtaining public datasets from their authoritative accession/repository under the applicable terms, and running only the explicitly documented workflow entry point with its recorded parameters, seed, input manifest, output directory, and software environment. A release tag is a provenance anchor; it is not evidence that every historical runtime can be reconstructed.
+Reproduction begins by checking out the verified immutable GitHub Release tag v1.0.0, confirming the commit and manifest hashes, obtaining public datasets from their authoritative accession/repository under the applicable terms, and running only the explicitly documented workflow entry point with its recorded parameters, seed, input manifest, output directory, and software environment. A release tag is a provenance anchor; it is not evidence that every historical runtime can be reconstructed.
 
 ## Recorded environment
 
@@ -18,4 +18,4 @@ GSE326201 is Tier 1 exploratory; GSE282701 remains BLOCKED_PROVENANCE_UNRESOLVED
 
 ## Stage22 non-rerun statement
 
-This repository closure used Git and filesystem inspection plus documentation generation. It did not rerun scVI/scanVI, CopyKAT, trajectory, SCENIC, CellOracle, scTenifoldKnk, external validation, or any other biological analysis. It did not modify Figure 1–8, Results, Discussion, or Stage19.
+This repository closure used Git, GitHub/Zenodo metadata inspection, filesystem inspection, and documentation generation. It did not rerun scVI/scanVI, CopyKAT, trajectory, SCENIC, CellOracle, scTenifoldKnk, external validation, or any other biological analysis. It did not modify Figure 1–8, Results, Discussion, or Stage19.

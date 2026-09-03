@@ -36,7 +36,7 @@ def item(title, abstract="", tags=None, extra="", publication=""):
             "extra": extra,
             "publicationTitle": publication,
             "date": "2024",
-            "DOI": "10.1000/test",
+            "DOI": "fixture-doi-sentinel",
             "collections": ["ORIGINAL"],
         },
     }

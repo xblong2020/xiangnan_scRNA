@@ -2,15 +2,16 @@
 
 | Field | Value |
 |---|---|
-| Stage22 status | STAGE22_MANUSCRIPT_INTEGRATION_IN_PROGRESS |
-| Repository archival status | MANUAL_GITHUB_RELEASE_REQUIRED |
+| Stage22 manuscript status | STAGE22_MANUSCRIPT_INTEGRATION_IN_PROGRESS |
+| Stage22 repository status | OPEN_PENDING_EXTERNAL_ARCHIVAL |
+| Repository archival status | OPEN_PENDING_EXTERNAL_ARCHIVAL |
 | PENDING_REPOSITORY_ARCHIVAL | TRUE |
-| STAGE22_REPOSITORY_BLOCKER | PENDING_GITHUB_RELEASE |
+| STAGE22_REPOSITORY_BLOCKER | PENDING_ZENODO_ARCHIVAL |
 | Remote repository | CONFIGURED_AND_VERIFIED |
-| GitHub repository | https://github.com/xblong2020/xiangnan_scRNA |
-| GitHub main commit at publication | a7ee1edb8c139e9dca94a3e3702c750701e019e0 |
-| GitHub Release | MANUAL_ACTION_REQUIRED |
-| Zenodo status | WAITING_FOR_GITHUB_RELEASE |
+| Zenodo status | MANUAL_ACTION_REQUIRED |
+| GitHub Release status | PUBLISHED |
+| GitHub Release URL | https://github.com/xblong2020/xiangnan_scRNA/releases/tag/v1.0.0 |
+| GitHub main commit | d1b9d7e39a5e2d563b4ad286b770c8fef350c360 |
 | Release tag | v1.0.0 |
 | Release commit | 1c0303049ba629b9b986cb9a7e088384f15f5a87 |
 | Stage19 | STAGE19_CLOSED_WITH_LIMITATIONS |
@@ -20,6 +21,6 @@
 | Figure 1–8 modified | FALSE |
 | Results/Discussion modified | FALSE |
 
-The public GitHub repository, main branch, and immutable v1.0.0 tag are verified. The GitHub Release object still requires manual publication, followed by Zenodo archival.
+The repository and GitHub Release state are evaluated separately from Zenodo permanent-identifier state. Stage22 repository closure remains open until a verified archive identifier is available.
 
-Minimum external action: publish the normal GitHub Release v1.0.0, enable Zenodo for xblong2020/xiangnan_scRNA, verify the archived version and commit, and append the returned DOI and record URL in a later closure update.
+Minimum external action: enable the verified GitHub repository in Zenodo, obtain the version DOI for v1.0.0, verify DOI resolution and release provenance, then append the provider response to this closure package.

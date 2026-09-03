@@ -152,6 +152,72 @@ def redact_remote(value: str) -> str:
     return re.sub(r"(https?://)([^/@]+@)", r"\1<credentials-redacted>@", value)
 
 
+def public_audit_root(_value: str | None) -> str:
+    return "REDACTED_LOCAL_PATH"
+
+
+def public_git_state(state: dict[str, Any]) -> dict[str, Any]:
+    public = dict(state)
+    public["git_root"] = public_audit_root(state.get("git_root"))
+    if public.get("status_text"):
+        public["status_text"] = "REDACTED_STATUS_PATHS"
+    return public
+
+
+def resolve_publication_state(
+    release_ready: bool,
+    github_release_status: str | None,
+    zenodo_status: str | None,
+    permanent_identifier: str | None,
+) -> dict[str, Any]:
+    github_status = github_release_status or "MANUAL_ACTION_REQUIRED"
+    zenodo = zenodo_status or (
+        "MANUAL_ACTION_REQUIRED"
+        if github_status == "PUBLISHED"
+        else "WAITING_FOR_GITHUB_RELEASE"
+    )
+    if (
+        release_ready
+        and github_status == "PUBLISHED"
+        and zenodo == "ARCHIVED"
+        and permanent_identifier
+    ):
+        return {
+            "repository_archival_status": "CLOSED",
+            "stage22_repository_blocker": "NONE",
+            "final_gate": "PASS_STAGE22_CLOSED_STAGE23_READY",
+            "stage22_status": "CLOSED",
+            "zenodo_status": zenodo,
+            "permanent_identifier": permanent_identifier,
+        }
+    if release_ready and github_status == "PUBLISHED":
+        return {
+            "repository_archival_status": "OPEN_PENDING_EXTERNAL_ARCHIVAL",
+            "stage22_repository_blocker": "PENDING_ZENODO_ARCHIVAL",
+            "final_gate": "MANUAL_ZENODO_ACTION_REQUIRED",
+            "stage22_status": "OPEN_PENDING_EXTERNAL_ARCHIVAL",
+            "zenodo_status": zenodo,
+            "permanent_identifier": None,
+        }
+    if release_ready:
+        return {
+            "repository_archival_status": "MANUAL_GITHUB_RELEASE_REQUIRED",
+            "stage22_repository_blocker": "PENDING_GITHUB_RELEASE",
+            "final_gate": "MANUAL_GITHUB_RELEASE_REQUIRED",
+            "stage22_status": "OPEN_PENDING_EXTERNAL_ARCHIVAL",
+            "zenodo_status": "WAITING_FOR_GITHUB_RELEASE",
+            "permanent_identifier": None,
+        }
+    return {
+        "repository_archival_status": "NOT_READY",
+        "stage22_repository_blocker": "OPEN",
+        "final_gate": "NOT_READY",
+        "stage22_status": "OPEN_PENDING_EXTERNAL_ARCHIVAL",
+        "zenodo_status": "WAITING_FOR_GITHUB_RELEASE",
+        "permanent_identifier": None,
+    }
+
+
 def git_state() -> dict[str, Any]:
     root_rc, root_out, root_err = run_git("rev-parse", "--show-toplevel")
     branch_rc, branch, _ = run_git("branch", "--show-current")
@@ -463,6 +529,7 @@ def markdown_table(items: list[tuple[str, Any]]) -> str:
 def build(args: argparse.Namespace) -> None:
     CLOSURE.mkdir(parents=True, exist_ok=True)
     state = git_state()
+    public_state = public_git_state(state)
     paths = release_paths()
     snapshot_path = CLOSURE / "01_git_audit" / "protected_science_snapshot.json"
     if args.phase == "initial":
@@ -483,17 +550,33 @@ def build(args: argparse.Namespace) -> None:
     release_commit = args.release_commit or tag["release_commit"]
     release_tag = args.release_tag or tag["release_tag"]
     local_release_ready = bool(release_tag and release_commit)
-    permanent_identifier = None
-    archival_status = (
-        "REPOSITORY_ARCHIVAL_CLOSED"
-        if permanent_identifier and local_release_ready
-        else "READY_FOR_MANUAL_ARCHIVAL"
-        if local_release_ready
-        else "NOT_READY"
+    permanent_identifier = args.permanent_identifier
+    github_release_status = args.github_release_status or (
+        "PUBLISHED" if args.github_release_url else "MANUAL_ACTION_REQUIRED"
     )
-    remote_status = "CONFIGURED" if state["remote_exists"] else "NOT_CONFIGURED"
+    publication_state = resolve_publication_state(
+        release_ready=local_release_ready,
+        github_release_status=github_release_status,
+        zenodo_status=args.zenodo_status,
+        permanent_identifier=permanent_identifier,
+    )
+    archival_status = publication_state["repository_archival_status"]
+    remote_status = (
+        "CONFIGURED_AND_VERIFIED"
+        if state["remote_exists"] and args.remote_verified
+        else "CONFIGURED"
+        if state["remote_exists"]
+        else "NOT_CONFIGURED"
+    )
     remote_push_status = (
-        "PENDING_AUTHORIZATION" if state["remote_exists"] else "NOT_APPLICABLE_NO_REMOTE"
+        "SUCCESS" if state["remote_exists"] and args.remote_verified
+        else "PENDING_AUTHORIZATION" if state["remote_exists"]
+        else "NOT_APPLICABLE_NO_REMOTE"
+    )
+    repository_url = (
+        state["remote_urls"][0].removesuffix(".git")
+        if state["remote_urls"]
+        else None
     )
     release_paths_for_scan = list(paths)
     source = source_counts()
@@ -513,7 +596,7 @@ def build(args: argparse.Namespace) -> None:
         "generated_at_local": now_local(),
         "phase": args.phase,
         "REPOSITORY_EXISTS": state["repository_exists"],
-        "GIT_ROOT": state["git_root"],
+        "GIT_ROOT": public_audit_root(state["git_root"]),
         "CURRENT_BRANCH": state["current_branch"],
         "HEAD_COMMIT": state["head_commit"],
         "HEAD_STATE": state["head_state"],
@@ -522,8 +605,8 @@ def build(args: argparse.Namespace) -> None:
         "TAG_EXISTS": state["tag_exists"],
         "LATEST_TAG": state["latest_tag"],
         "WORKTREE_CLEAN": state["worktree_clean"],
-        "ARCHIVAL_READY": archival_status == "REPOSITORY_ARCHIVAL_CLOSED",
-        "repository": state,
+        "ARCHIVAL_READY": archival_status == "CLOSED",
+        "repository": public_state,
         "release_anchor": {
             "release_tag": release_tag,
             "release_commit": release_commit,
@@ -555,8 +638,15 @@ def build(args: argparse.Namespace) -> None:
                 "permanent_identifier_record.json",
             }
         ][:200],
-        "permanent_identifier_found": False,
-        "permanent_identifier_verification": "NONE_VERIFIED_LOCALLY",
+        "permanent_identifier_found": bool(permanent_identifier),
+        "permanent_identifier_verification": (
+            "VERIFIED" if permanent_identifier else "NONE_VERIFIED_LOCALLY"
+        ),
+        "GITHUB_RELEASE_STATUS": github_release_status,
+        "GITHUB_RELEASE_URL": args.github_release_url,
+        "GITHUB_RELEASE_VERIFIED": github_release_status == "PUBLISHED",
+        "ZENODO_STATUS": publication_state["zenodo_status"],
+        "FINAL_GATE": publication_state["final_gate"],
         "historical_exact_version_not_recoverable": True,
         "stage19_reopened": False,
         "biological_rerun": False,
@@ -636,8 +726,15 @@ def build(args: argparse.Namespace) -> None:
         "tag_reanchored_before_external_publication": args.tag_reanchored_before_publication,
         "previous_tag_target": args.previous_release_commit,
         "release_scope_manifest": "REPOSITORY_MANIFEST.tsv",
-        "external_release_published": False,
-        "external_release_verification": "PENDING_EXTERNAL_CONFIRMATION",
+        "external_release_published": github_release_status == "PUBLISHED",
+        "external_release_verification": (
+            "GITHUB_RELEASE_VERIFIED"
+            if github_release_status == "PUBLISHED"
+            else "PENDING_EXTERNAL_CONFIRMATION"
+        ),
+        "github_release_status": github_release_status,
+        "github_release_url": args.github_release_url,
+        "github_main_commit": args.github_main_commit,
     }
     write_json(CLOSURE / "04_release" / "RELEASE_RECORD.json", release_record)
     write_text(
@@ -653,8 +750,10 @@ def build(args: argparse.Namespace) -> None:
                         ("Tag object type", tag["tag_object_type"]),
                         ("Release date", tag["release_date"]),
                         ("History rewritten", False),
-                        ("External release published", False),
-                        ("External release verification", "PENDING_EXTERNAL_CONFIRMATION"),
+                        ("External release published", github_release_status == "PUBLISHED"),
+                        ("External release verification", release_record["external_release_verification"]),
+                        ("GitHub Release URL", args.github_release_url),
+                        ("GitHub main commit", args.github_main_commit),
                     ]
                 ),
                 "",
@@ -673,10 +772,18 @@ def build(args: argparse.Namespace) -> None:
         "branch": state["current_branch"],
         "release_tag": release_tag,
         "release_commit": release_commit,
-        "remote_accessibility_verified": False,
-        "remote_tag_presence_verified": False,
+        "remote_accessibility_verified": args.remote_verified,
+        "remote_tag_presence_verified": args.remote_verified,
+        "remote_main_commit": args.github_main_commit,
+        "remote_tag_target": args.remote_tag_target or release_commit,
+        "github_repository_status": "PUBLIC_AND_VERIFIED" if args.remote_verified else "PENDING_EXTERNAL_CONFIRMATION",
+        "github_release_status": github_release_status,
+        "github_release_url": args.github_release_url,
+        "zenodo_status": publication_state["zenodo_status"],
         "reason": "No local remote is configured."
         if not state["remote_exists"]
+        else "Remote main and tag verification were supplied to this audit and are recorded above."
+        if args.remote_verified
         else "Remote is configured but external access and tag presence were not asserted by this local audit.",
     }
     write_json(CLOSURE / "05_remote" / "REMOTE_REPOSITORY_AUDIT.json", remote_audit)
@@ -694,56 +801,89 @@ def build(args: argparse.Namespace) -> None:
                         ("Branch", state["current_branch"]),
                         ("Release tag", release_tag),
                         ("Release commit", release_commit),
-                        ("Remote accessibility verified", False),
-                        ("Remote tag presence verified", False),
+                        ("Remote accessibility verified", remote_audit["remote_accessibility_verified"]),
+                        ("Remote tag presence verified", remote_audit["remote_tag_presence_verified"]),
+                        ("Remote main commit", remote_audit["remote_main_commit"]),
+                        ("Remote tag target", remote_audit["remote_tag_target"]),
+                        ("GitHub Release status", github_release_status),
+                        ("GitHub Release URL", args.github_release_url),
                     ]
                 ),
                 "",
-                "No push was attempted without a configured remote. A successful local tag is not a public repository or archive identifier.",
+                "Remote publication evidence is recorded from the explicit non-force push and independent ref verification.",
             ]
         ),
     )
+    if state["remote_exists"]:
+        setup_lines = [
+            "# Remote repository setup instructions",
+            "",
+            "Remote repository status: " + remote_status,
+            "Repository: " + (repository_url or "PENDING_EXTERNAL_CONFIRMATION"),
+            "Remote name: origin",
+            "Main branch commit: " + (args.github_main_commit or "PENDING_EXTERNAL_CONFIRMATION"),
+            "Release tag: " + (release_tag or "v1.0.0"),
+            "Release commit: " + (release_commit or "PENDING_EXTERNAL_CONFIRMATION"),
+            "GitHub Release status: " + github_release_status,
+            "",
+            "Remote configuration and non-force publication are complete. The remaining external action is determined by GitHub Release and Zenodo status.",
+        ]
+    else:
+        setup_lines = [
+            "# Remote repository setup instructions",
+            "",
+            "Current status: REMOTE_REPOSITORY_STATUS = " + remote_status,
+            "",
+            "Minimal one-time external action:",
+            "",
+            "1. Create or select a public GitHub/GitLab repository owned by the project team. Do not upload raw/restricted data, patient-level files, large sequencing objects, caches, environments, credentials, or unapproved derived outputs.",
+            "2. From the project root, add the verified remote URL: git remote add origin <PUBLIC_REPOSITORY_URL>.",
+            "3. Push the current release branch: git push -u origin " + (state["current_branch"] or "<RELEASE_BRANCH>") + ".",
+            "4. Push the immutable release tag: git push origin refs/tags/" + (release_tag or "v1.0.0") + ".",
+            "5. Verify the public repository URL, branch mapping, tag target commit, and release visibility. Then enable Zenodo or another approved archive for that repository.",
+            "",
+            "The placeholder URL above is an instruction placeholder, not a repository claim. Replace it only with the URL returned by the repository provider.",
+        ]
     write_text(
         CLOSURE / "05_remote" / "REMOTE_REPOSITORY_SETUP_INSTRUCTIONS.md",
-        "\n".join(
-            [
-                "# Remote repository setup instructions",
-                "",
-                "Current status: REMOTE_REPOSITORY_STATUS = " + remote_status,
-                "",
-                "Minimal one-time external action:",
-                "",
-                "1. Create or select a public GitHub/GitLab repository owned by the project team. Do not upload raw/restricted data, patient-level files, large sequencing objects, caches, environments, credentials, or unapproved derived outputs.",
-                "2. From the project root, add the verified remote URL: git remote add origin <PUBLIC_REPOSITORY_URL>.",
-                "3. Push the current release branch: git push -u origin " + (state["current_branch"] or "<RELEASE_BRANCH>") + ".",
-                "4. Push the immutable release tag: git push origin refs/tags/" + (release_tag or "v1.0.0") + ".",
-                "5. Verify the public repository URL, branch mapping, tag target commit, and release visibility. Then enable Zenodo or another approved archive for that repository.",
-                "",
-                "The placeholder URL above is an instruction placeholder, not a repository claim. Replace it only with the URL returned by the repository provider.",
-            ]
-        ),
+        "\n".join(setup_lines),
     )
 
     permanent_record = {
         "schema_version": "stage22.permanent_identifier_record.v1",
         "generated_at_local": now_local(),
-        "permanent_identifier": None,
-        "permanent_identifier_type": None,
-        "archive_url": None,
+        "repository": repository_url,
+        "release_url": args.github_release_url,
+        "tag_peeled_target": args.remote_tag_target or release_commit,
+        "archive_provider": "Zenodo",
+        "version_doi": args.version_doi,
+        "concept_doi": args.concept_doi,
+        "permanent_identifier": permanent_identifier,
+        "permanent_identifier_type": "DOI" if permanent_identifier else None,
+        "archive_url": args.archive_url,
         "release_version": release_tag or "v1.0.0",
         "associated_commit": release_commit,
-        "verification_status": "NOT_FOUND_OR_NOT_VERIFIED",
+        "doi_resolution": args.doi_resolution,
+        "zenodo_metadata_match": args.zenodo_metadata_match,
+        "zenodo_release_provenance": args.zenodo_release_provenance,
+        "verification_status": (
+            "VERIFIED" if permanent_identifier else "GITHUB_RELEASE_VERIFIED_ZENODO_PENDING"
+        ),
+        "verified": bool(permanent_identifier),
+        "reason": (
+            "PENDING_ZENODO_ARCHIVAL"
+            if not permanent_identifier
+            else "VERIFIED_PERMANENT_IDENTIFIER"
+        ),
         "repository_archival_status": archival_status,
-        "zenodo_status": "READY_FOR_MANUAL_ARCHIVAL",
+        "zenodo_status": publication_state["zenodo_status"],
         "swhid": None,
         "evidence": [],
         "pending_fields": [
-            "public_repository_url",
             "archive_url",
             "permanent_identifier",
-            "identifier_type",
-            "author_confirmation",
-            "license_confirmation",
+            "version_doi",
+            "concept_doi",
         ],
     }
     write_json(CLOSURE / "06_archive" / "PERMANENT_IDENTIFIER_RECORD.json", permanent_record)
@@ -754,7 +894,7 @@ def build(args: argparse.Namespace) -> None:
             [
                 "# Zenodo archival preparation",
                 "",
-                "Repository: " + (state["remote_urls"][0] if state["remote_urls"] else "PENDING_EXTERNAL_CONFIRMATION"),
+                "Repository: " + (repository_url or "PENDING_EXTERNAL_CONFIRMATION"),
                 "Release tag: " + (release_tag or "PENDING_UNTIL_LOCAL_RELEASE"),
                 "Release commit: " + (release_commit or "PENDING_UNTIL_LOCAL_RELEASE"),
                 "Archive title: HCC hepatocyte state-transition single-cell analysis code",
@@ -763,23 +903,28 @@ def build(args: argparse.Namespace) -> None:
                 "Version: " + (release_tag or "v1.0.0"),
                 "License: PENDING_EXTERNAL_CONFIRMATION",
                 "Keywords: hepatocellular carcinoma; HCC; single-cell RNA sequencing; hepatocyte state transition; reproducibility",
-                "Related identifiers: No verified code-repository DOI, SWHID, or archive identifier is available locally.",
+                "Related identifiers: GitHub repository " + (repository_url or "PENDING_EXTERNAL_CONFIRMATION") + "; no verified code-repository DOI, SWHID, or archive identifier is available locally.",
                 "",
-                "ZENODO_STATUS = READY_FOR_MANUAL_ARCHIVAL",
+                "ZENODO_STATUS = " + publication_state["zenodo_status"],
                 "",
-                "No DOI is generated or inferred in this preparation record. After the public repository and immutable tag are verified, the project owner can enable the repository integration and record the DOI returned by Zenodo.",
+                "No DOI is generated or inferred in this preparation record. After the GitHub Release is verified, the project owner can enable the repository integration and record the DOI returned by Zenodo.",
             ]
         ),
     )
 
     final_wording = (
-        "The analysis code supporting this study is archived at [VERIFIED_REPOSITORY_OR_ARCHIVE_URL], "
-        f"version {release_tag or 'v1.0.0'}, DOI: [VERIFIED_DOI]."
-        if archival_status == "REPOSITORY_ARCHIVAL_CLOSED"
+        "The analysis code supporting this study is archived at "
+        + (args.archive_url or "[VERIFIED_ARCHIVE_URL]")
+        + f", version {release_tag or 'v1.0.0'}, DOI: "
+        + (permanent_identifier or "[VERIFIED_DOI]")
+        + "."
+        if archival_status == "CLOSED"
         else (
-            f"The analysis code is available at [VERIFIED_PUBLIC_REPOSITORY_URL], release {release_tag or 'v1.0.0'}. "
-            "A permanent archival identifier remains pending."
-            if state["remote_exists"] and local_release_ready
+            f"The analysis code is publicly available at {repository_url or '[VERIFIED_PUBLIC_REPOSITORY_URL]'}, "
+            f"release {release_tag or 'v1.0.0'}; the GitHub Release is available at "
+            f"{args.github_release_url or '[VERIFIED_GITHUB_RELEASE_URL]'}. "
+            "A Zenodo permanent archival identifier remains pending."
+            if github_release_status == "PUBLISHED" and local_release_ready
             else (
                 f"The analysis code is locally frozen under release tag {release_tag or 'v1.0.0'}. "
                 "A public repository URL and permanent archival identifier remain pending external action."
@@ -796,7 +941,7 @@ def build(args: argparse.Namespace) -> None:
                 "",
                 final_wording,
                 "",
-                "The bracketed values are explicit external-confirmation fields. No DOI or repository URL is asserted until independently verified.",
+                "The repository, release, and archive fields above are populated only from verified external metadata; unresolved DOI fields remain explicit.",
             ]
         ),
     )
@@ -807,20 +952,20 @@ def build(args: argparse.Namespace) -> None:
         "stage": 22,
         "stage_name": "22-SCI生信研究Introduction撰写器",
         "stage22_status": "STAGE22_MANUSCRIPT_INTEGRATION_IN_PROGRESS",
+        "stage22_repository_status": publication_state["stage22_status"],
         "repository_archival_status": archival_status,
-        "PENDING_REPOSITORY_ARCHIVAL": archival_status != "REPOSITORY_ARCHIVAL_CLOSED",
-        "STAGE22_REPOSITORY_BLOCKER": (
-            "CLOSED"
-            if archival_status == "REPOSITORY_ARCHIVAL_CLOSED"
-            else "PENDING_EXTERNAL_ACTION"
-            if local_release_ready
-            else "OPEN"
-        ),
+        "PENDING_REPOSITORY_ARCHIVAL": archival_status != "CLOSED",
+        "STAGE22_REPOSITORY_BLOCKER": publication_state["stage22_repository_blocker"],
         "remote_repository_status": remote_status,
-        "zenodo_status": "READY_FOR_MANUAL_ARCHIVAL",
-        "permanent_identifier": None,
-        "permanent_identifier_type": None,
-        "archive_url": None,
+        "zenodo_status": publication_state["zenodo_status"],
+        "permanent_identifier": permanent_identifier,
+        "permanent_identifier_type": "DOI" if permanent_identifier else None,
+        "archive_url": args.archive_url,
+        "github_repository_status": "PUBLIC_AND_VERIFIED" if args.remote_verified else "PENDING_EXTERNAL_CONFIRMATION",
+        "github_repository_url": repository_url,
+        "github_main_commit": args.github_main_commit,
+        "github_release_status": github_release_status,
+        "github_release_url": args.github_release_url,
         "release_tag": release_tag,
         "release_commit": release_commit,
         "current_head_at_audit": state["head_commit"],
@@ -846,8 +991,12 @@ def build(args: argparse.Namespace) -> None:
             "historical_exact_version_not_recoverable": True,
         },
         "manual_action": (
-            "Create/configure a public remote, push the release branch and immutable tag, "
-            "enable an approved archive, record the returned permanent identifier, and verify the archive URL and tag commit."
+            "Enable Zenodo for the verified repository, record the returned permanent identifier, "
+            "and verify the archive URL and tag commit."
+            if github_release_status == "PUBLISHED" and not permanent_identifier
+            else "Publish the normal GitHub Release v1.0.0, then enable Zenodo and verify the permanent archive identifier."
+            if not permanent_identifier
+            else "Record and verify the permanent archive identifier before closing Stage22."
         ),
     }
     write_json(
@@ -862,12 +1011,16 @@ def build(args: argparse.Namespace) -> None:
                 "",
                 markdown_table(
                     [
-                        ("Stage22 status", stage22_record["stage22_status"]),
+                        ("Stage22 manuscript status", stage22_record["stage22_status"]),
+                        ("Stage22 repository status", stage22_record["stage22_repository_status"]),
                         ("Repository archival status", archival_status),
                         ("PENDING_REPOSITORY_ARCHIVAL", stage22_record["PENDING_REPOSITORY_ARCHIVAL"]),
                         ("STAGE22_REPOSITORY_BLOCKER", stage22_record["STAGE22_REPOSITORY_BLOCKER"]),
                         ("Remote repository", remote_status),
-                        ("Zenodo status", "READY_FOR_MANUAL_ARCHIVAL"),
+                        ("Zenodo status", publication_state["zenodo_status"]),
+                        ("GitHub Release status", github_release_status),
+                        ("GitHub Release URL", args.github_release_url),
+                        ("GitHub main commit", args.github_main_commit),
                         ("Release tag", release_tag),
                         ("Release commit", release_commit),
                         ("Stage19", "STAGE19_CLOSED_WITH_LIMITATIONS"),
@@ -879,9 +1032,9 @@ def build(args: argparse.Namespace) -> None:
                     ]
                 ),
                 "",
-                "The local release/tag preparation is complete only to the extent recorded above. A local tag does not close the repository archival blocker without a verified public immutable identifier or another project-approved permanent identifier.",
+                "The repository and GitHub Release state are evaluated separately from Zenodo permanent-identifier state. Stage22 repository closure remains open until a verified archive identifier is available.",
                 "",
-                "Minimum external action: create/configure the public remote, push the release branch and tag, enable Zenodo or another approved archive, mint/verify the permanent identifier, and append the provider response to this closure package.",
+                "Minimum external action: enable the verified GitHub repository in Zenodo, obtain the version DOI for v1.0.0, verify DOI resolution and release provenance, then append the provider response to this closure package.",
             ]
         ),
     )
@@ -900,6 +1053,14 @@ def build(args: argparse.Namespace) -> None:
         ),
         "remote_repository_status": remote_status,
         "remote_push_status": remote_push_status,
+        "github_release_status": github_release_status,
+        "github_release_verified": github_release_status == "PUBLISHED",
+        "github_release_url": args.github_release_url,
+        "zenodo_status": publication_state["zenodo_status"],
+        "permanent_identifier": permanent_identifier,
+        "repository_archival_status": archival_status,
+        "stage22_repository_blocker": publication_state["stage22_repository_blocker"],
+        "final_gate": publication_state["final_gate"],
         "git_worktree_clean_at_audit": state["worktree_clean"],
         "manifest_sha256_status": "PENDING_MANIFEST_WRITE",
         "sensitive_file_scan": sensitive["status"],
@@ -918,6 +1079,11 @@ def build(args: argparse.Namespace) -> None:
         "post_release_closure_commit": args.closure_commit,
         "analysis_entry_points_executed": [],
         "scientific_result_files_written": [],
+        "test_command": args.test_command,
+        "test_status": args.test_status,
+        "test_count": args.test_count,
+        "test_duration_seconds": args.test_duration_seconds,
+        "test_timestamp": args.test_timestamp,
         "notes": [
             "The final QA record is administrative repository QA; it is not a biological analysis result.",
             "The release tag target is the immutable code-release anchor. Later closure commits contain administrative records.",
@@ -939,6 +1105,12 @@ def build(args: argparse.Namespace) -> None:
                         ("Annotated tag", tag["tag_object_type"] == "tag"),
                         ("Tag target matches release commit", qa["tag_target_matches_release_commit"]),
                         ("Remote repository status", remote_status),
+                        ("Remote main commit", args.github_main_commit),
+                        ("GitHub Release status", github_release_status),
+                        ("GitHub Release verified", github_release_status == "PUBLISHED"),
+                        ("GitHub Release URL", args.github_release_url),
+                        ("Zenodo status", publication_state["zenodo_status"]),
+                        ("Permanent identifier", permanent_identifier),
                         ("Git worktree clean at audit", state["worktree_clean"]),
                         ("Sensitive-file scan", sensitive["status"]),
                         ("Fake/unverified repository DOI scan", dois["status"]),
@@ -948,6 +1120,11 @@ def build(args: argparse.Namespace) -> None:
                         ("Figure 1–8 scan", protected_check["status"]),
                         ("Results/Discussion scan", protected_check["status"]),
                         ("Historical exact version", qa["historical_exact_version_scan"]),
+                        ("Test command", args.test_command),
+                        ("Test status", args.test_status),
+                        ("Test count", args.test_count),
+                        ("Test duration seconds", args.test_duration_seconds),
+                        ("Test timestamp", args.test_timestamp),
                     ]
                 ),
                 "",
@@ -961,10 +1138,10 @@ def build(args: argparse.Namespace) -> None:
         "schema_version": "stage22.code_repository_archival_gate.v1",
         "generated_at_local": now_local(),
         "repository_archival_status": archival_status,
-        "PENDING_REPOSITORY_ARCHIVAL": archival_status != "REPOSITORY_ARCHIVAL_CLOSED",
-        "STAGE22_REPOSITORY_BLOCKER": stage22_record["STAGE22_REPOSITORY_BLOCKER"],
+        "PENDING_REPOSITORY_ARCHIVAL": archival_status != "CLOSED",
+        "STAGE22_REPOSITORY_BLOCKER": publication_state["stage22_repository_blocker"],
         "REPOSITORY_EXISTS": state["repository_exists"],
-        "GIT_ROOT": state["git_root"],
+        "GIT_ROOT": public_audit_root(state["git_root"]),
         "CURRENT_BRANCH": state["current_branch"],
         "HEAD_COMMIT": state["head_commit"],
         "RELEASE_TAG": release_tag,
@@ -972,17 +1149,28 @@ def build(args: argparse.Namespace) -> None:
         "TAG_REANCHORED_BEFORE_EXTERNAL_PUBLICATION": args.tag_reanchored_before_publication,
         "PREVIOUS_TAG_TARGET": args.previous_release_commit,
         "REMOTE_REPOSITORY_STATUS": remote_status,
-        "ZENODO_STATUS": "READY_FOR_MANUAL_ARCHIVAL",
-        "PERMANENT_IDENTIFIER": None,
-        "PERMANENT_IDENTIFIER_TYPE": None,
-        "ARCHIVE_URL": None,
+        "REMOTE_MAIN_COMMIT": args.github_main_commit,
+        "GITHUB_REPOSITORY_STATUS": "PUBLIC_AND_VERIFIED" if args.remote_verified else "PENDING_EXTERNAL_CONFIRMATION",
+        "GITHUB_REPOSITORY_URL": repository_url,
+        "GITHUB_RELEASE_STATUS": github_release_status,
+        "GITHUB_RELEASE_VERIFIED": github_release_status == "PUBLISHED",
+        "GITHUB_RELEASE_URL": args.github_release_url,
+        "ZENODO_STATUS": publication_state["zenodo_status"],
+        "PERMANENT_IDENTIFIER": permanent_identifier,
+        "PERMANENT_IDENTIFIER_VERIFIED": bool(permanent_identifier),
+        "PERMANENT_IDENTIFIER_TYPE": "DOI" if permanent_identifier else None,
+        "ARCHIVE_URL": args.archive_url,
+        "STAGE22_STATUS": publication_state["stage22_status"],
+        "STAGE23_READY": archival_status == "CLOSED",
+        "STAGE23_STARTED": False,
+        "STAGE23_AUTO_HANDOFF": False,
+        "FINAL_GATE": publication_state["final_gate"],
         "stage19_reopened": False,
         "biological_rerun": False,
         "figure1_8_modified": False,
         "results_modified": False,
         "discussion_modified": False,
-        "stage23_auto_handoff": False,
-        "manual_action_required": archival_status != "REPOSITORY_ARCHIVAL_CLOSED",
+        "manual_action_required": archival_status != "CLOSED",
     }
     write_json(CLOSURE / "CODE_REPOSITORY_ARCHIVAL_GATE.json", gate)
     write_text(
@@ -1002,15 +1190,17 @@ def build(args: argparse.Namespace) -> None:
                         ("RELEASE_COMMIT", release_commit),
                         ("CURRENT_HEAD_AT_AUDIT", state["head_commit"]),
                         ("REMOTE_REPOSITORY_STATUS", remote_status),
-                        ("ZENODO_STATUS", "READY_FOR_MANUAL_ARCHIVAL"),
-                        ("PERMANENT_IDENTIFIER", None),
+                        ("GITHUB_RELEASE_STATUS", github_release_status),
+                        ("GITHUB_RELEASE_URL", args.github_release_url),
+                        ("ZENODO_STATUS", publication_state["zenodo_status"]),
+                        ("PERMANENT_IDENTIFIER", permanent_identifier),
                     ]
                 ),
                 "",
                 "## Decision rationale",
                 "",
-                "The repository has a local Git provenance record and an annotated release tag when shown above. No public remote, archive response, DOI, SWHID, or other permanent identifier is verified locally.",
-                "Therefore the repository archival blocker remains pending external action. The local release package is ready for the project owner to publish once, then append the provider verification evidence.",
+                "The repository, GitHub Release, and immutable tag states are recorded from the supplied local and remote evidence. Zenodo permanent-identifier verification remains the independent archival gate.",
+                "The final status is driven by the explicit publication-state inputs and retains pending values whenever DOI evidence is absent.",
                 "",
                 "## Scope protection",
                 "",
@@ -1023,7 +1213,7 @@ def build(args: argparse.Namespace) -> None:
                 "",
                 "## Minimum manual action",
                 "",
-                "Create/configure the public remote, push the release branch and the immutable release tag, enable Zenodo or another approved archive, record the returned DOI or other permanent identifier, verify its URL and associated commit, and replace only the explicit pending fields in the closure records.",
+                "Enable the verified GitHub repository in Zenodo, obtain the version DOI for v1.0.0, verify DOI resolution and release provenance, and replace only the explicit pending fields in the closure records.",
             ]
         ),
     )
@@ -1041,7 +1231,11 @@ def build(args: argparse.Namespace) -> None:
                 "- Read-only filesystem inventory: source counts, protected-scope inventory, large-file scan, sensitive-pattern scan, placeholder scan, DOI classification, and SHA-256 hashing.",
                 "- Local metadata builder: 22-SCI生信研究Introduction撰写器/code_repository_archival_closure_v1/01_git_audit/build_stage22_closure.py; it does not import or execute biological analysis modules.",
                 "- Git mutation scope: only the explicitly allowlisted release source/metadata files and Stage22 closure records.",
-                "- External push/upload: not attempted when no remote or archive authorization is configured.",
+                (
+                    "- External push/upload: remote publication refs were verified for the configured remote."
+                    if state["remote_exists"] and args.remote_verified
+                    else "- External push/upload: not attempted when no verified remote or archive authorization is configured."
+                ),
                 (
                     "- Local tag re-anchor: v1.0.0 was re-anchored before external publication from "
                     + (args.previous_release_commit or "an earlier local target")
@@ -1077,6 +1271,24 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--closure-commit")
     parser.add_argument("--previous-release-commit")
     parser.add_argument("--tag-reanchored-before-publication", action="store_true")
+    parser.add_argument("--remote-verified", action="store_true")
+    parser.add_argument("--github-main-commit")
+    parser.add_argument("--remote-tag-target")
+    parser.add_argument("--github-release-status")
+    parser.add_argument("--github-release-url")
+    parser.add_argument("--zenodo-status")
+    parser.add_argument("--permanent-identifier")
+    parser.add_argument("--archive-url")
+    parser.add_argument("--version-doi")
+    parser.add_argument("--concept-doi")
+    parser.add_argument("--doi-resolution", default="NOT_RUN_NO_DOI")
+    parser.add_argument("--zenodo-metadata-match", default="NOT_RUN_NO_DOI")
+    parser.add_argument("--zenodo-release-provenance", default="NOT_RUN_NO_DOI")
+    parser.add_argument("--test-command")
+    parser.add_argument("--test-status")
+    parser.add_argument("--test-count", type=int)
+    parser.add_argument("--test-duration-seconds", type=float)
+    parser.add_argument("--test-timestamp")
     return parser.parse_args()
 
 

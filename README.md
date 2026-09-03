@@ -46,8 +46,8 @@ The principal workflow order is data intake and download records → preprocessi
 
 This closure performs Git, filesystem, provenance, release-preparation, and documentation work only. No biological analysis was rerun; no new cohort or biological result was created; Figure 1–8, Results, and Discussion were not modified; Stage19 was not reopened; and Stage23 is not entered automatically. The release tag and commit recorded in the closure package describe repository provenance, not a new scientific analysis.
 
-The public GitHub repository is https://github.com/xblong2020/xiangnan_scRNA. The verified remote main publication commit is a7ee1edb8c139e9dca94a3e3702c750701e019e0, and the frozen annotated tag v1.0.0 points to 1c0303049ba629b9b986cb9a7e088384f15f5a87. The GitHub Release page still requires manual creation because the GitHub CLI is unavailable in this environment. Zenodo archival and its permanent identifier remain pending.
+The public GitHub repository is https://github.com/xblong2020/xiangnan_scRNA. The current verified remote main commit is d1b9d7e39a5e2d563b4ad286b770c8fef350c360, and the frozen annotated tag v1.0.0 points to 1c0303049ba629b9b986cb9a7e088384f15f5a87. GitHub Release v1.0.0 is published as a normal public release. Zenodo archival and its permanent identifier remain pending.
 
 ## Citation
 
-The analysis code is publicly available at https://github.com/xblong2020/xiangnan_scRNA, release v1.0.0. A Zenodo permanent archival identifier remains pending. After Zenodo returns a real DOI, replace only the pending archive fields with the verified DOI and record URL. See CITATION.cff and the Stage22 closure package for the evidence trail.
+The analysis code is publicly available at https://github.com/xblong2020/xiangnan_scRNA, GitHub Release v1.0.0. A Zenodo permanent archival identifier remains pending. After Zenodo returns a real DOI, replace only the pending archive fields with the verified DOI and record URL. See CITATION.cff and the Stage22 closure package for the evidence trail.
