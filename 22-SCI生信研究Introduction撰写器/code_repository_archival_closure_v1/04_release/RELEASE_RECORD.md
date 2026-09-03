@@ -10,6 +10,6 @@
 | External release published | TRUE |
 | External release verification | GITHUB_RELEASE_VERIFIED |
 | GitHub Release URL | https://github.com/xblong2020/xiangnan_scRNA/releases/tag/v1.0.0 |
-| GitHub main commit | d1b9d7e39a5e2d563b4ad286b770c8fef350c360 |
+| GitHub main commit | b024f6aae586b326bd91b8b0c2fc0d51b47a3540 |
 
 This record distinguishes the immutable local code-release anchor from the later Stage22 administrative closure commits.

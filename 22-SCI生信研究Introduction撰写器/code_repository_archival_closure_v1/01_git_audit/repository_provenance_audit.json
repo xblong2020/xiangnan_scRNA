@@ -6,7 +6,7 @@
   "GITHUB_RELEASE_URL": "https://github.com/xblong2020/xiangnan_scRNA/releases/tag/v1.0.0",
   "GITHUB_RELEASE_VERIFIED": true,
   "GIT_ROOT": "REDACTED_LOCAL_PATH",
-  "HEAD_COMMIT": "d1b9d7e39a5e2d563b4ad286b770c8fef350c360",
+  "HEAD_COMMIT": "b024f6aae586b326bd91b8b0c2fc0d51b47a3540",
   "HEAD_STATE": "COMMIT",
   "LATEST_TAG": "v1.0.0",
   "REMOTE_EXISTS": true,
@@ -31,7 +31,7 @@
     "TUSHARE_TOKEN"
   ],
   "figure1_8_modified": false,
-  "generated_at_local": "2026-09-03T09:09:05+08:00",
+  "generated_at_local": "2026-09-03T09:34:41+08:00",
   "historical_exact_version_not_recoverable": true,
   "large_release_scope_files": [],
   "permanent_identifier_found": false,
@@ -101,12 +101,13 @@
     },
     "git_root": "REDACTED_LOCAL_PATH",
     "git_root_error": null,
-    "head_commit": "d1b9d7e39a5e2d563b4ad286b770c8fef350c360",
+    "head_commit": "b024f6aae586b326bd91b8b0c2fc0d51b47a3540",
     "head_error": null,
     "head_state": "COMMIT",
     "latest_tag": "v1.0.0",
     "recent_log": [
-      "d1b9d7e (HEAD -> codex/module7-sctenifoldknk, origin/main) docs: record GitHub publication for Stage22 archival",
+      "b024f6a (HEAD -> codex/module7-sctenifoldknk, origin/main) stage22: record verified GitHub release and Zenodo pending",
+      "d1b9d7e docs: record GitHub publication for Stage22 archival",
       "a7ee1ed docs: refresh Stage22 publication safety audit",
       "e1f8122 docs: finalize Stage22 repository archival QA",
       "50acc2a fix: make Stage22 archival manifest audit self-consistent",
@@ -119,7 +120,7 @@
       "https://github.com/xblong2020/xiangnan_scRNA.git"
     ],
     "repository_exists": true,
-    "status_entry_count": 29,
+    "status_entry_count": 20,
     "status_error": null,
     "status_text": "REDACTED_STATUS_PATHS",
     "tag_exists": true,
@@ -148,5 +149,6 @@
     "scripts_bytes": 3121018,
     "scripts_files": 298
   },
-  "stage19_reopened": false
+  "stage19_reopened": false,
+  "tag_integrity": true
 }

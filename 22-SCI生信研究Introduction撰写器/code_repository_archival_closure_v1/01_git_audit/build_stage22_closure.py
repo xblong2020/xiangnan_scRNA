@@ -618,6 +618,12 @@ def build(args: argparse.Namespace) -> None:
         },
         "remote_repository_status": remote_status,
         "remote_push_status": remote_push_status,
+        "tag_integrity": bool(
+            release_tag
+            and release_commit
+            and tag["tag_object_type"] == "tag"
+            and tag["release_commit"] == release_commit
+        ),
         "source_inventory": source,
         "protected_directory_inventory": protected,
         "large_release_scope_files": large,
@@ -1047,6 +1053,12 @@ def build(args: argparse.Namespace) -> None:
         "head_commit_at_audit": state["head_commit"],
         "release_tag": release_tag,
         "release_commit": release_commit,
+        "tag_integrity": bool(
+            release_tag
+            and release_commit
+            and tag["tag_object_type"] == "tag"
+            and tag["release_commit"] == release_commit
+        ),
         "release_tag_is_annotated": tag["tag_object_type"] == "tag",
         "tag_target_matches_release_commit": bool(
             release_tag and release_commit and state["tag_targets"].get(release_tag) == release_commit
@@ -1073,6 +1085,17 @@ def build(args: argparse.Namespace) -> None:
         "biological_rerun_scan": "PASS_NO_BIOLOGICAL_ANALYSIS_COMMAND_ISSUED_BY_SCOPE",
         "figure1_8_modification_scan": protected_check["status"],
         "results_discussion_modification_scan": protected_check["status"],
+        "figure1_8_hash_check": protected_check["status"],
+        "results_hash_check": protected_check["status"],
+        "discussion_hash_check": protected_check["status"],
+        "large_file_scan": (
+            "PASS_NO_RELEASE_SCOPE_LARGE_FILE" if not large else "REVIEW_REQUIRED"
+        ),
+        "secret_scan": sensitive["status"],
+        "manifest_updated_reason": "ARCHIVAL_METADATA_ONLY",
+        "doi_resolution": args.doi_resolution,
+        "zenodo_metadata_match": args.zenodo_metadata_match,
+        "zenodo_release_provenance": args.zenodo_release_provenance,
         "historical_exact_version_scan": "PASS_EXPLICIT_UNRECOVERABLE_STATUS_RETAINED",
         "protected_scope_baseline_file_count": protected_check.get("baseline_file_count"),
         "protected_scope_current_file_count": protected_check.get("current_file_count"),
@@ -1105,6 +1128,7 @@ def build(args: argparse.Namespace) -> None:
                         ("Annotated tag", tag["tag_object_type"] == "tag"),
                         ("Tag target matches release commit", qa["tag_target_matches_release_commit"]),
                         ("Remote repository status", remote_status),
+                        ("Tag integrity", qa["tag_integrity"]),
                         ("Remote main commit", args.github_main_commit),
                         ("GitHub Release status", github_release_status),
                         ("GitHub Release verified", github_release_status == "PUBLISHED"),
@@ -1113,12 +1137,18 @@ def build(args: argparse.Namespace) -> None:
                         ("Permanent identifier", permanent_identifier),
                         ("Git worktree clean at audit", state["worktree_clean"]),
                         ("Sensitive-file scan", sensitive["status"]),
+                        ("Secret scan", sensitive["status"]),
+                        ("Large-file scan", qa["large_file_scan"]),
                         ("Fake/unverified repository DOI scan", dois["status"]),
                         ("Placeholder scan", placeholders["status"]),
                         ("Stage19 reopening scan", stage19["status"]),
                         ("Biological rerun scan", qa["biological_rerun_scan"]),
                         ("Figure 1–8 scan", protected_check["status"]),
                         ("Results/Discussion scan", protected_check["status"]),
+                        ("DOI resolution", args.doi_resolution),
+                        ("Zenodo metadata match", args.zenodo_metadata_match),
+                        ("Zenodo release provenance", args.zenodo_release_provenance),
+                        ("Manifest updated reason", "ARCHIVAL_METADATA_ONLY"),
                         ("Historical exact version", qa["historical_exact_version_scan"]),
                         ("Test command", args.test_command),
                         ("Test status", args.test_status),
